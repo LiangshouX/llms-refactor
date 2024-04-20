@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+
+<ruleset name="Custom Rules"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
+
+    <description>
+        rules for Code Refactoring
+    </description>
+
+    <rule ref="rulesets/java/quickstart.xml"/>
+
+    <!-- 分别批量引入 PMD 的8个类别的内置规则，参考：https://pmd.github.io/pmd/pmd_rules_java.html -->
+    <!-- Code Style类别下的规则 -->
+<!--    <rule ref="category/java/codestyle.xml">-->
+<!--        <exclude name="WhileLoopsMustUseBraces"/>-->
+<!--        <exclude name="IfElseStmtsMustUseBraces"/>-->
+<!--    </rule>-->
+
+<!--    <rule ref="category/java/bestpractices.xml">-->
+
+<!--    </rule>-->
+
+<!--    <rule ref="category/java/design.xml">-->
+
+<!--    </rule>-->
+
+<!--    <rule ref="category/java/documentation.xml">-->
+
+<!--    </rule>-->
+
+<!--    <rule ref="category/java/errorprone.xml">-->
+
+<!--    </rule>-->
+
+<!--    <rule ref="category/java/multithreading.xml">-->
+
+<!--    </rule>-->
+
+<!--    <rule ref="category/java/performance.xml">-->
+
+<!--    </rule>-->
+
+<!--    <rule ref="category/java/security.xml">-->
+
+<!--    </rule>-->
+
+</ruleset>
