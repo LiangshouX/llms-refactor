@@ -1,4 +1,4 @@
-package com.liangshou.llmsrefactor.controller;
+package com.liangshou.llmsrefactor.openai.constant;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

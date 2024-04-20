@@ -22,3 +22,18 @@ create table if not exists code_exp
     createTime          datetime default CURRENT_TIMESTAMP not null comment '创建时间',
     update_time         datetime default CURRENT_TIMESTAMP not null comment '更新时间'
 );
+
+-- 外部知识表
+create table if not exists article
+(
+    id                  bigint      auto_increment  comment '代码 id' primary key,
+    category            varchar(128)                comment '一级类别',
+    sub_category        varchar(128)                comment '二级类别',
+    level               varchar(128)                comment '三种级别',
+    content             text                        comment '内容',
+    positive_example    text                        comment '正例',
+    counter_example     text                        comment '反例',
+    note                text                        comment '说明',
+    created_at          timestamp   default CURRENT_TIMESTAMP   comment '创建时间',
+    updated_at          timestamp   default CURRENT_TIMESTAMP   comment '更新时间'
+);
