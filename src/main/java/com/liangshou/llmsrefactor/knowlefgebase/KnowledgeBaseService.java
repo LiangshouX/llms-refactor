@@ -9,7 +9,7 @@ import com.liangshou.llmsrefactor.knowlefgebase.event.KnowledgeBaseArticleUpdate
 import com.liangshou.llmsrefactor.knowlefgebase.event.KnowledgeBaseArticlesImportedEvent;
 import com.liangshou.llmsrefactor.knowlefgebase.request.CreateArticleRequest;
 import com.liangshou.llmsrefactor.knowlefgebase.request.UpdateArticleRequest;
-import com.liangshou.llmsrefactor.model.entity.KnowledgeBaseArticle;
+import com.liangshou.llmsrefactor.knowlefgebase.entity.KnowledgeBaseArticle;
 import jakarta.annotation.Resource;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationEventPublisher;

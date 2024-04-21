@@ -1,9 +1,7 @@
 package com.liangshou.llmsrefactor.knowlefgebase.event;
 
-import com.liangshou.llmsrefactor.model.entity.KnowledgeBaseArticle;
+import com.liangshou.llmsrefactor.knowlefgebase.entity.KnowledgeBaseArticle;
 import org.springframework.context.ApplicationEvent;
-
-import java.awt.desktop.AppEvent;
 
 /**
  * @author X-L-S

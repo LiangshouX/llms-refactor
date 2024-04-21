@@ -2,7 +2,6 @@ package com.liangshou.llmsrefactor.knowlefgebase.entity;
 
 import com.liangshou.llmsrefactor.knowlefgebase.request.CreateArticleRequest;
 import com.liangshou.llmsrefactor.knowlefgebase.request.UpdateArticleRequest;
-import com.liangshou.llmsrefactor.model.entity.KnowledgeBaseArticle;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

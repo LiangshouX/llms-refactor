@@ -1,4 +1,4 @@
-package com.liangshou.llmsrefactor.model.entity;
+package com.liangshou.llmsrefactor.knowlefgebase.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
