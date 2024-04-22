@@ -27,7 +27,7 @@ public class PdfDocumentImporter implements DocumentImporter {
                         new KnowledgeBaseArticle(
                                 getMetaProperty(document, "category", false),
                                 getMetaProperty(document, "subCategory", false),
-                                getMetaProperty(document, "level", true),
+                                getMetaProperty(document, "itemId", true),
                                 document.getContent()
                                 )
 
@@ -55,12 +55,12 @@ public class PdfDocumentImporter implements DocumentImporter {
 
     private String getMetaProperty(Document document, String meta, boolean nullable){
         // TODO 这里的 String 会报错，成 Integer
-        String metaProperty;
-        if(meta.equals("level")){
-             metaProperty = document.getMetadata().get(meta).toString();
-        }else {
-             metaProperty = (String) document.getMetadata().get(meta);
-        }
+        String metaProperty = (String) document.getMetadata().get(meta);
+//        if(meta.equals("itemId")){
+//             metaProperty = document.getMetadata().get(meta).toString();
+//        }else {
+//             metaProperty = (String) document.getMetadata().get(meta);
+//        }
         if(!nullable){
             return Optional.ofNullable(metaProperty).orElseGet(
                     () -> document.getContent().substring(0, 20)

@@ -9,12 +9,13 @@ import java.util.UUID;
 
 /**
  * 描述知识库的 Article 的实体类
+ *
  * @author X-L-S
  */
 public record KnowledgeBaseArticle(String id,
                                    String category,
                                    String subCategory,
-                                   String level,
+                                   String itemId,
                                    String content,
                                    Instant createAt,
                                    Instant updateAt) {
@@ -22,13 +23,13 @@ public record KnowledgeBaseArticle(String id,
     public KnowledgeBaseArticle(
             @JsonProperty("category")String category,
             @JsonProperty("subCategory") String subCategory,
-            @JsonProperty("level") String level,
+            @Nullable @JsonProperty("itemId") String itemId,
             @JsonProperty("content") String content
     ){
         this(UUID.randomUUID().toString(),
                 category,
                 subCategory,
-                level,
+                itemId,
                 content,
                 Instant.now(),
                 Instant.now());

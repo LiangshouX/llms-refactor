@@ -8,7 +8,7 @@ public class DocumentFieldNames {
     public static final String ARTICLE_ID = "article_id";
     public static final String CATEGORY = "category";
     public static final String SUB_CATEGORY = "subCategory";
-    public static final String LEVEL = "level";
+    public static final String ITEM_ID = "itemId";
     public static final String POSITIVE_EXAMPLE = "positiveExample";
     public static final String COUNTER_EXAMPLE = "counterExample";
     public static final String NOTE = "note";

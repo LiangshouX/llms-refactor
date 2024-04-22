@@ -7,6 +7,6 @@ import org.jetbrains.annotations.Nullable;
  */
 public record CreateArticleRequest(String category,
                                    String subCategory,
-                                   String level,
+                                   String itemId,
                                    String content) {
 }

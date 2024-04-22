@@ -30,7 +30,7 @@ public class Documents {
         String category = (String) metadata
                 .getOrDefault(CATEGORY, "");
         String subCategory = (String) metadata.getOrDefault(SUB_CATEGORY, "");
-        String level = (String) metadata.getOrDefault(LEVEL, "");
+        String itemId = (String) metadata.getOrDefault(ITEM_ID, "");
         String positiveExample = (String) metadata.getOrDefault(POSITIVE_EXAMPLE, "");
         String counterExample = (String) metadata.getOrDefault(COUNTER_EXAMPLE, "");
         String note = (String) metadata.getOrDefault(NOTE, "");
@@ -38,7 +38,7 @@ public class Documents {
                document.getId(),
                 category,
                 subCategory,
-                level,
+                itemId,
                 document.getContent(),
                 parseTimestamp(metadata, CREATED_AT),
                 parseTimestamp(metadata, UPDATED_AT)

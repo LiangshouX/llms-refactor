@@ -28,8 +28,8 @@ public class Article {
     @Column(name = "sub_category", nullable = false)
     String subCategory;
 
-    @Column(name = "level", nullable = false)
-    String level;
+    @Column(name = "item_id", nullable = false)
+    String itemId;
 
     @Column(name = "content", nullable = false)
     String content;
@@ -76,7 +76,7 @@ public class Article {
         article.id = UUID.fromString(knowledgeBaseArticle.id());
         article.category = knowledgeBaseArticle.category();
         article.subCategory = knowledgeBaseArticle.subCategory();
-        article.level = knowledgeBaseArticle.level();
+        article.itemId = knowledgeBaseArticle.itemId();
         article.content = knowledgeBaseArticle.content();
         return article;
     }
@@ -86,7 +86,7 @@ public class Article {
                 id.toString(),
                 category,
                 subCategory,
-                level,
+                itemId,
                 content,
                 createdAt,
                 updatedAt

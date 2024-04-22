@@ -7,6 +7,6 @@ import org.jetbrains.annotations.Nullable;
  */
 public record UpdateArticleRequest(@Nullable String category,
                                    @Nullable String subCategory,
-                                   @Nullable String level,
+                                   @Nullable String itemId,
                                    @Nullable String content) {
 }
