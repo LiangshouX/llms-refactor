@@ -16,9 +16,6 @@ public record KnowledgeBaseArticle(String id,
                                    String subCategory,
                                    String level,
                                    String content,
-                                   @Nullable String positiveExample,
-                                   @Nullable String counterExample,
-                                   @Nullable String note,
                                    Instant createAt,
                                    Instant updateAt) {
     @JsonCreator
@@ -26,19 +23,13 @@ public record KnowledgeBaseArticle(String id,
             @JsonProperty("category")String category,
             @JsonProperty("subCategory") String subCategory,
             @JsonProperty("level") String level,
-            @JsonProperty("content") String content,
-            @Nullable@JsonProperty("positiveExample") String positiveExample,
-            @Nullable@JsonProperty("counterExample") String counterExample,
-            @Nullable@JsonProperty("note") String note
+            @JsonProperty("content") String content
     ){
         this(UUID.randomUUID().toString(),
                 category,
                 subCategory,
                 level,
                 content,
-                positiveExample,
-                counterExample,
-                note,
                 Instant.now(),
                 Instant.now());
     }

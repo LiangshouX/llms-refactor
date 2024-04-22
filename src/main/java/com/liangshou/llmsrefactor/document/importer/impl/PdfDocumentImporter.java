@@ -23,17 +23,13 @@ public class PdfDocumentImporter implements DocumentImporter {
             var documents = importWithParagraph(path);
             // var category = FilenameUtils.getBaseName(path.getFileName().toString());
             return documents.stream().map(
-                    // TODO 补全代码
                     document ->
                         new KnowledgeBaseArticle(
                                 getMetaProperty(document, "category", false),
                                 getMetaProperty(document, "subCategory", false),
-                                getMetaProperty(document, "level", false),
-                                document.getContent(),
-                                getMetaProperty(document, "positiveExample", true),
-                                getMetaProperty(document, "counterExample", true),
-                                getMetaProperty(document, "note", true)
-                        )
+                                getMetaProperty(document, "level", true),
+                                document.getContent()
+                                )
 
             ).toList();
         }catch (Exception e){
@@ -55,10 +51,16 @@ public class PdfDocumentImporter implements DocumentImporter {
         return new SingleCategoryParagraphPdfDocumentReader(path).get();
     }
 
-    /*************** 从 document 中依次获取到文档的7个属性 ****************/
+    /*************** 从 document 中依次获取到文档的 3 个属性 ****************/
 
     private String getMetaProperty(Document document, String meta, boolean nullable){
-        String metaProperty = (String) document.getMetadata().get(meta);
+        // TODO 这里的 String 会报错，成 Integer
+        String metaProperty;
+        if(meta.equals("level")){
+             metaProperty = document.getMetadata().get(meta).toString();
+        }else {
+             metaProperty = (String) document.getMetadata().get(meta);
+        }
         if(!nullable){
             return Optional.ofNullable(metaProperty).orElseGet(
                     () -> document.getContent().substring(0, 20)

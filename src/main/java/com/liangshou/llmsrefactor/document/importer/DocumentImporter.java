@@ -21,6 +21,7 @@ public interface DocumentImporter {
         throws DocumentImportException;
 
     Set<String> supportFileExtensions();
+
     default boolean support(Path path){
         if(CollectionUtils.isEmpty(supportFileExtensions())){
             return false;

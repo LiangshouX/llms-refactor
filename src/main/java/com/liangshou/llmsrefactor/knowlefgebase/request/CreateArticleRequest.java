@@ -8,8 +8,5 @@ import org.jetbrains.annotations.Nullable;
 public record CreateArticleRequest(String category,
                                    String subCategory,
                                    String level,
-                                   String content,
-                                   @Nullable String positiveExample,
-                                   @Nullable String counterExample,
-                                   @Nullable String note) {
+                                   String content) {
 }

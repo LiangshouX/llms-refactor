@@ -14,6 +14,7 @@ import static org.springframework.ai.reader.pdf.config.PdfDocumentReaderConfig.A
 
 /**
  * 对单个 PDF 文件根据一级大纲（类别）进行读取
+ *  把整个 PDF 文档读取成一个 document对象
  * @author X-L-S
  */
 public class SingleCategoryParagraphPdfDocumentReader

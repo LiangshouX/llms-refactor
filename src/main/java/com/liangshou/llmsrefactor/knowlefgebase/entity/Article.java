@@ -34,15 +34,6 @@ public class Article {
     @Column(name = "content", nullable = false)
     String content;
 
-    @Column(name = "positive_example", nullable = true)
-    String positiveExample;
-
-    @Column(name = "counter_example", nullable = true)
-    String counterExample;
-
-    @Column(name = "note")
-    String note;
-
     @Column(name = "created_at")
     Instant createdAt;
 
@@ -56,21 +47,11 @@ public class Article {
         if(request.subCategory() != null){
             this.subCategory = request.subCategory();
         }
-        if(request.level() != null){
-            this.level = request.level();
-        }
+
         if(request.content() != null){
             this.content = request.content();
         }
-        if(request.positiveExample() != null){
-            this.positiveExample = request.positiveExample();
-        }
-        if(request.counterExample() != null){
-            this.counterExample = request.counterExample();
-        }
-        if(request.note() != null){
-            this.note = request.note();
-        }
+
         this.updatedAt = Instant.now();
     }
 
@@ -84,11 +65,7 @@ public class Article {
         article.id = UUID.randomUUID();
         article.category = request.category();
         article.subCategory = request.subCategory();
-        article.level = request.level();
         article.content = request.content();
-        article.positiveExample = request.positiveExample();
-        article.counterExample = request.counterExample();
-        article.note = request.note();
         article.createdAt = Instant.now();
         article.updatedAt = Instant.now();
         return article;
@@ -101,9 +78,6 @@ public class Article {
         article.subCategory = knowledgeBaseArticle.subCategory();
         article.level = knowledgeBaseArticle.level();
         article.content = knowledgeBaseArticle.content();
-        article.positiveExample = knowledgeBaseArticle.positiveExample();
-        article.counterExample = knowledgeBaseArticle.counterExample();
-        article.note = knowledgeBaseArticle.note();
         return article;
     }
 
@@ -114,9 +88,6 @@ public class Article {
                 subCategory,
                 level,
                 content,
-                positiveExample,
-                counterExample,
-                note,
                 createdAt,
                 updatedAt
         );

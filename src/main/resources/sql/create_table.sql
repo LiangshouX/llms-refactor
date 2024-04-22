@@ -26,14 +26,11 @@ create table if not exists code_exp
 -- 外部知识表
 create table if not exists article
 (
-    id                  bigint      auto_increment  comment '代码 id' primary key,
+    id                  bigint      auto_increment  comment '知识点 id' primary key,
     category            varchar(128)                comment '一级类别',
     sub_category        varchar(128)                comment '二级类别',
-    level               varchar(128)                comment '三种级别',
+    level               varchar(128)                comment '强制-推荐-参考',
     content             text                        comment '内容',
-    positive_example    text                        comment '正例',
-    counter_example     text                        comment '反例',
-    note                text                        comment '说明',
     created_at          timestamp   default CURRENT_TIMESTAMP   comment '创建时间',
     updated_at          timestamp   default CURRENT_TIMESTAMP   comment '更新时间'
 );

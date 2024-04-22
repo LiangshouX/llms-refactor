@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
+ * 管理所有的 DocumentImporter，
  * @author X-L-S
  */
 public class DocumentImporters {
@@ -18,6 +19,13 @@ public class DocumentImporters {
         this.documentImporters = documentImporters;
     }
 
+    /**
+     * 对于一个 path 对象，首先调用全部的 DocumentImporter 的 support 方法，
+     *     找到支持该文件的 DocumentImporter 对象
+     * @param path path对象
+     * @return 列表
+     * @throws DocumentImportException 文件导入异常
+     */
     public List<KnowledgeBaseArticle> importDocuments(Path path)
             throws DocumentImportException {
         var exceptionRef = new AtomicReference<DocumentImportException>();
