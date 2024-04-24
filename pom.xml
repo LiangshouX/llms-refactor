@@ -92,6 +92,22 @@
 			<version>3.2.4</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/io.springboot.ai/spring-ai-redis -->
+		<dependency>
+			<groupId>io.springboot.ai</groupId>
+			<artifactId>spring-ai-redis</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>5.1.0</version>
+		</dependency>
+
+
 		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -228,6 +244,12 @@
 			<version>0.64.8</version>
 		</dependency>
 
+		<!--用于设置限流器-->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>33.0.0-jre</version>
+		</dependency>
 
 	</dependencies>
 

@@ -14,4 +14,6 @@ public class DocumentFieldNames {
     public static final String NOTE = "note";
     public static final String CREATED_AT = "created_at";
     public static final String UPDATED_AT = "updated_at";
+
+    public static final String DEFAULT_PREFIX = "embedding:";
 }

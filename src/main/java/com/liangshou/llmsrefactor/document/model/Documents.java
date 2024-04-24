@@ -1,5 +1,6 @@
 package com.liangshou.llmsrefactor.document.model;
 
+import com.liangshou.llmsrefactor.common.UUIDs;
 import com.liangshou.llmsrefactor.knowlefgebase.entity.KnowledgeBaseArticle;
 import org.springframework.ai.document.Document;
 
@@ -17,7 +18,7 @@ public class Documents {
        Map<String, Object> metadata = Map.of(
                CATEGORY, article.category(),
                SUB_CATEGORY, article.subCategory(),
-               ARTICLE_ID, article.id(),
+               ARTICLE_ID, UUIDs.normalize(article.id()),
                CREATED_AT, article.createAt(),
                UPDATED_AT, article.updateAt()
        );
