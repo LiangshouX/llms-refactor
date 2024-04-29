@@ -29,6 +29,7 @@ public class DocumentLoader {
     private final JedisPooled jedisPooled;
     private final RedisConfig redisConfig;
 
+    // 创建一个初始速率为每秒 1 个令牌的限流器
     private final RateLimiter rateLimiter = RateLimiter.create(10);
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -41,6 +42,11 @@ public class DocumentLoader {
         this.redisConfig = redisConfig;
     }
 
+    /**
+     * 文档的转换与加载
+     * @param article KnowledgeBaseArticle 对象
+     * @param update 是否更新
+     */
     public void loadArticle(KnowledgeBaseArticle article, boolean update){
         if(update){
             deleteDocumentsByArticle(article);
@@ -50,7 +56,7 @@ public class DocumentLoader {
         transformed = transformed.stream().map(
                 document -> new Document(
                         document.getId(),
-                        "%s\r\n\r\n%s".formatted(article.category(), document.getContent()),
+                        "%s\r\n\r\n%s".formatted(article.title(), document.getContent()),
                         document.getMetadata())
                 )
                 .toList();
@@ -72,10 +78,12 @@ public class DocumentLoader {
      * @param article Article对象
      */
     public void deleteDocumentsByArticle(KnowledgeBaseArticle article){
+        // 执行 FT Search 的查询语句，@ARTICLE_ID:article.id 表示在 ARTICLE_ID 字段中搜索包含 article.id 的内容
         var query = new Query(
                 "@%s:%s".formatted(ARTICLE_ID, UUIDs.normalize(article.id()))
         ).dialect(2);
 
+        // 从 Redis 向量数据库中执行全文搜索
         var result = jedisPooled.ftSearch(redisConfig.indexName(), query);
         var docIds = result.getDocuments()
                 .stream()
@@ -91,6 +99,7 @@ public class DocumentLoader {
 
     /**
      * 往向量数据库中添加 Document
+     *
      * @param documents document对象列表
      */
     private void addDocuments(List<Document> documents){

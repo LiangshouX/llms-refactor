@@ -31,6 +31,7 @@ import java.util.Map;
 /**
  * @author X-L-S
  */
+@Deprecated
 @Slf4j
 public class HttpClientUtil {
 

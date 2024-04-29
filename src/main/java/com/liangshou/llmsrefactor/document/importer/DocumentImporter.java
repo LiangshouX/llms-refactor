@@ -17,11 +17,26 @@ import java.util.Set;
  */
 public interface DocumentImporter {
 
+    /**
+     * 从指定文件中导入知识点
+     * @param path 文件路径
+     * @throws DocumentImportException 文件导入异常
+     */
     List<KnowledgeBaseArticle> importDocuments(Path path)
         throws DocumentImportException;
 
+    /**
+     * 指定每一个 importer 所支持的文件扩展名
+     *
+     * @return Set 对象，e.g. {@code Set.of("md", "pdf");}
+     */
     Set<String> supportFileExtensions();
 
+    /**
+     * 接口的默认方法，判断传入的文件路径对应的文件是否为 DocumentImporter 所支持的文件格式
+     *
+     * @param path 文件路径
+     */
     default boolean support(Path path){
         if(CollectionUtils.isEmpty(supportFileExtensions())){
             return false;

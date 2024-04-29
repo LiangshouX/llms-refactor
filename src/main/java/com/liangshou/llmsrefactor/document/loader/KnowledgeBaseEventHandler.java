@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.Async;
 import java.util.List;
 
 /**
- * 知识库事件处理类
+ * 知识库事件处理类，包括导入、新建、删除、更新等几类事件
  *
  * @author X-L-S
  */

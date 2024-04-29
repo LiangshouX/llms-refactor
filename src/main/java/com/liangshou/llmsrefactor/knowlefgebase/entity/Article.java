@@ -7,7 +7,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import java.time.Instant;
 import java.util.UUID;
+
+import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.Setter;
 
 
 /**
@@ -17,6 +20,8 @@ import lombok.Getter;
  */
 @Entity
 @Getter
+@Setter
+@Table(name = "article")
 public class Article {
 
     @Id
@@ -25,11 +30,8 @@ public class Article {
     @Column(name = "category", nullable = false)
     String category;
 
-    @Column(name = "sub_category", nullable = false)
-    String subCategory;
-
-    @Column(name = "item_id", nullable = false)
-    String itemId;
+    @Column(name = "title", nullable = false)
+    String title;
 
     @Column(name = "content", nullable = false)
     String content;
@@ -40,12 +42,12 @@ public class Article {
     @Column(name = "updated_at")
     Instant updatedAt;
 
-    public void updateFrom(UpdateArticleRequest request){
+    public void updateFromRequest(UpdateArticleRequest request){
         if(request.category() != null){
             this.category = request.category();
         }
-        if(request.subCategory() != null){
-            this.subCategory = request.subCategory();
+        if(request.title() != null){
+            this.title = request.title();
         }
 
         if(request.content() != null){
@@ -64,7 +66,7 @@ public class Article {
         Article article = new Article();
         article.id = UUID.randomUUID();
         article.category = request.category();
-        article.subCategory = request.subCategory();
+        article.title = request.title();
         article.content = request.content();
         article.createdAt = Instant.now();
         article.updatedAt = Instant.now();
@@ -75,21 +77,24 @@ public class Article {
         Article article = new Article();
         article.id = UUID.fromString(knowledgeBaseArticle.id());
         article.category = knowledgeBaseArticle.category();
-        article.subCategory = knowledgeBaseArticle.subCategory();
-        article.itemId = knowledgeBaseArticle.itemId();
+        article.title = knowledgeBaseArticle.title();
         article.content = knowledgeBaseArticle.content();
+        article.createdAt = Instant.parse(knowledgeBaseArticle.createAt());
+        article.updatedAt = Instant.parse(knowledgeBaseArticle.updateAt());
         return article;
     }
 
+    /**
+     * 将 Article 实体对象转换为 KnowledgeBaseArticle 对象
+     */
     public KnowledgeBaseArticle toKnowledgeBaseArticle(){
         return new KnowledgeBaseArticle(
                 id.toString(),
                 category,
-                subCategory,
-                itemId,
+                title,
                 content,
-                createdAt,
-                updatedAt
+                createdAt.toString(),
+                updatedAt.toString()
         );
     }
 }

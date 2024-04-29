@@ -55,7 +55,8 @@ public class KnowledgeBaseService implements ApplicationEventPublisherAware {
     public Optional<Article> updateArticle(UUID id, UpdateArticleRequest request){
 
         return knowledgeBaseArticleRepository.findById(id).map(article -> {
-            article.updateFrom(request);
+
+            article.updateFromRequest(request);
             var updated = knowledgeBaseArticleRepository.save(article);
             applicationEventPublisher.publishEvent(
                     new KnowledgeBaseArticleUpdatedEvent(
@@ -63,6 +64,7 @@ public class KnowledgeBaseService implements ApplicationEventPublisherAware {
                     )
             );
             return updated;
+
         });
     }
 
@@ -105,6 +107,10 @@ public class KnowledgeBaseService implements ApplicationEventPublisherAware {
                         .map(Category::new)
                         .toList()
         );
+    }
+
+    public Articles fromPage(Page<Article> page){
+        return new Articles(page.getContent(), page.getTotalElements());
     }
 
 }

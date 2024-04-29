@@ -28,8 +28,7 @@ public class DocumentIndexerModuleConfiguration {
             DocumentImporters documentImporters,
             KnowledgeBaseService knowledgeBaseService,
             LocalFilesIndexerConfig config) {
-        return new LocalFilesIndexer(documentImporters, knowledgeBaseService,
-                config);
+        return new LocalFilesIndexer(documentImporters, knowledgeBaseService, config);
     }
 
     @Bean

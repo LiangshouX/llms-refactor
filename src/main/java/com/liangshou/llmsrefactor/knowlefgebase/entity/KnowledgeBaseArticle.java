@@ -2,7 +2,6 @@ package com.liangshou.llmsrefactor.knowlefgebase.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -14,24 +13,21 @@ import java.util.UUID;
  */
 public record KnowledgeBaseArticle(String id,
                                    String category,
-                                   String subCategory,
-                                   String itemId,
+                                   String title,
                                    String content,
-                                   Instant createAt,
-                                   Instant updateAt) {
+                                   String createAt,
+                                   String updateAt) {
     @JsonCreator
     public KnowledgeBaseArticle(
             @JsonProperty("category")String category,
-            @JsonProperty("subCategory") String subCategory,
-            @Nullable @JsonProperty("itemId") String itemId,
+            @JsonProperty("title") String title,
             @JsonProperty("content") String content
     ){
         this(UUID.randomUUID().toString(),
                 category,
-                subCategory,
-                itemId,
+                title,
                 content,
-                Instant.now(),
-                Instant.now());
+                Instant.now().toString(),
+                Instant.now().toString());
     }
 }

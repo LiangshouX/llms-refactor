@@ -1,7 +1,6 @@
 package com.liangshou.llmsrefactor.document.importer.impl;
 
 import com.liangshou.llmsrefactor.document.importer.DocumentImporter;
-import com.liangshou.llmsrefactor.document.importer.SingleCategoryParagraphPdfDocumentReader;
 import com.liangshou.llmsrefactor.document.importer.exception.DocumentImportException;
 import com.liangshou.llmsrefactor.knowlefgebase.entity.KnowledgeBaseArticle;
 import org.springframework.ai.document.Document;
@@ -12,6 +11,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
+ * TODO：业务逻辑还需要完善
  * pdf 文档导入工具类
  * @author X-L-S
  */
@@ -26,8 +26,7 @@ public class PdfDocumentImporter implements DocumentImporter {
                     document ->
                         new KnowledgeBaseArticle(
                                 getMetaProperty(document, "category", false),
-                                getMetaProperty(document, "subCategory", false),
-                                getMetaProperty(document, "itemId", true),
+                                getMetaProperty(document, "title", false),
                                 document.getContent()
                                 )
 
@@ -51,7 +50,7 @@ public class PdfDocumentImporter implements DocumentImporter {
         return new SingleCategoryParagraphPdfDocumentReader(path).get();
     }
 
-    /*************** 从 document 中依次获取到文档的 3 个属性 ****************/
+    /*************** 从 document 中依次获取到文档的 几 个属性 ****************/
 
     private String getMetaProperty(Document document, String meta, boolean nullable){
         // TODO 这里的 String 会报错，成 Integer

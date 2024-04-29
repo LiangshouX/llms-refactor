@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
  * 用于加载并解析 Prompt Data 的工具类
  * @author X-L-S
  */
+@Deprecated
 @Slf4j
 public class LoadPromptUtil {
     private static final String promptRootDir = "src/resources/prompt-data/";

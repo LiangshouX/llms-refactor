@@ -36,8 +36,9 @@ public class LocalFilesIndexer implements DocumentIndexer {
 
     private final String errorDir = ".error";
 
-    // TODO 完善线程池逻辑
-    private final ExecutorService executorService = Executors.newCachedThreadPool();
+    private final ExecutorService executorService = Executors.newCachedThreadPool(
+            Thread.ofVirtual().name("local-files-indexer", 1).factory()
+    );
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -45,7 +46,7 @@ public class LocalFilesIndexer implements DocumentIndexer {
             DocumentImporters documentImporters,
             KnowledgeBaseService knowledgeBaseService,
             LocalFilesIndexerConfig config
-    ){
+    ) {
         this.documentImporters = documentImporters;
         this.knowledgeBaseService = knowledgeBaseService;
         this.config = config;
@@ -59,12 +60,18 @@ public class LocalFilesIndexer implements DocumentIndexer {
             }
         }
     }
+
     @Override
     public void index() {
         var baseDir = Paths.get(config.baseDir());
         index(baseDir);
     }
 
+    /**
+     * 进行文件的索引，分 目录和文件的情况 进行索引。
+     *
+     * @param path 建立索引的路径
+     */
     public void index(Path path){
         if (path.toFile().isDirectory()) {
             logger.info("Indexing documents in {}", path.toAbsolutePath());
@@ -100,13 +107,19 @@ public class LocalFilesIndexer implements DocumentIndexer {
         });
     }
 
+    /**
+     * 将放入 {User.home} 目录下的文件经过处理后放入相应的子目录下
+     *
+     * @param path 原文件路径
+     * @param success 处理是否成功。成功则放入 .processed目录，否则放入.error 目录
+     */
     private void moveFile(Path path, boolean success) {
         var subDir = success ? processedDir : errorDir;
         var filename = path.getFileName().toString();
         var baseName = FilenameUtils.getBaseName(filename);
-        var ext = FilenameUtils.getExtension(filename);
-        var updatedName = "%s-%s-%s".formatted(baseName, UUID.randomUUID(), ext);
-        // var updatedName = STR."\{baseName}-\{UUID.randomUUID()}.\{ext}";
+        var extension = FilenameUtils.getExtension(filename);
+        var updatedName = "%s-%s-%s".formatted(baseName, UUID.randomUUID(), extension);
+        // var updatedName = STR."\{baseName}-\{UUID.randomUUID()}.\{extension}";
         var updatedPath = path.getParent().resolve(subDir).resolve(updatedName);
         try {
             FileUtils.moveFile(path.toFile(), updatedPath.toFile());

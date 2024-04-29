@@ -1,0 +1,26 @@
+{
+  "formatVersion": 0,
+  "pmdVersion": "7.0.0",
+  "timestamp": "2024-04-25T14:14:07.695+08:00",
+  "files": [
+    {
+      "filename": "src\\main\\resources\\codeData\\HttpClientUtil.java",
+      "violations": [
+        {
+          "beginline": 35,
+          "begincolumn": 8,
+          "endline": 35,
+          "endcolumn": 13,
+          "description": "This utility class has a non-private constructor",
+          "rule": "UseUtilityClass",
+          "ruleset": "Design",
+          "priority": 3,
+          "externalInfoUrl": "https://docs.pmd-code.org/pmd-doc-7.0.0/pmd_rules_java_design.html#useutilityclass"
+        }
+      ]
+    }
+  ],
+  "suppressedViolations": [],
+  "processingErrors": [],
+  "configurationErrors": []
+}

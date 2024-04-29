@@ -11,7 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * 当应用启动时，通过DocumentIndexer 来执行一次索引，
+ * 当应用启动时，通过 DocumentIndexer 来执行一次索引，
  *  同时启动监视文件系统的 LocalFilesWatcher
  *
  * @author X-L-S

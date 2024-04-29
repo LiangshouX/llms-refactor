@@ -31,61 +31,59 @@ public class MarkdownDocumentImporter implements DocumentImporter {
     @Override
     public List<KnowledgeBaseArticle> importDocuments(Path path)
             throws DocumentImportException {
-        // TODO 完善业务逻辑代码
         var options = new MutableDataSet();
         options.set(Parser.EXTENSIONS, List.of(YamlFrontMatterExtension.create()));
         var parser = Parser.builder(options).build();
-        var topic = FilenameUtils.getBaseName(path.getFileName().toString());
+        var category = FilenameUtils.getBaseName(path.getFileName().toString());
         try {
             var doc = parser.parse(Files.readString(path));
-            // 每条记录的四个属性和内容
-            String category = null;
-            String subCategory = null;
-            String level = null;
-            String itemId = null;
+            // 每条记录的属性和内容
+            String title = null;
             StringBuilder content = new StringBuilder();
 
             List<KnowledgeBaseArticle> articles = new ArrayList<>();
 
             // 遍历每一个子节点（md 标题）
             for(Node child:doc.getChildren()){
+                //  1. MD 文档开头的 yaml，记录了该文档的 category，即语言的类别
                 if(child instanceof YamlFrontMatterBlock yamlFrontMatterBlock){
                     for (Node blockChild : yamlFrontMatterBlock.getChildren()) {
                         if (blockChild instanceof YamlFrontMatterNode blockNode
-                                && Objects.equals("topic", blockNode.getKey())
+                                && Objects.equals("category", blockNode.getKey())
                                 && blockNode.getFirstChild() != null) {
-                            topic = blockNode.getFirstChild().getChars().toString();
+                            category = blockNode.getFirstChild().getChars().toString();
                         }
                     }
                 }
-                // 处理各个标题
+                // 2. MD 文档的各级标题
                 else if(child instanceof Heading heading){
-                    // 一级标题，代表 category
+                    // 一级标题，代表 8 个分类之一，不用管
                     if(heading.getLevel() == 1){
-                        category = heading.getText().toString();
+                        String headCategory = heading.getText().toString();
+                        logger.info("Processing HeadCategory {} in Category {} ....", headCategory, category);
                     }
+                    // 二级标题，真实的 title
                     else if (heading.getLevel() == 2){
-                        subCategory = heading.getText().toString();
-                    } else if (heading.getLevel() == 3) {
-                        if(category != null && subCategory != null
-                                && itemId != null && !content.isEmpty()){
-                            KnowledgeBaseArticle article = new KnowledgeBaseArticle(category, subCategory,
-                                    itemId,StringUtils.trimToEmpty(content.toString()));
+                        // 搜索到了一个二级标题，需要把之前存的内容构建为对象
+                        if (category != null && title != null && !content.isEmpty()) {
+                            KnowledgeBaseArticle article = new KnowledgeBaseArticle(category, title,
+                                    StringUtils.trimToEmpty(content.toString()));
                             articles.add(article);
                             content = new StringBuilder();
                         }
-                        itemId = heading.getText().toString();
+                        title = heading.getText().toString();
+
                     }
                 }
-                // 处理内容
+                // 3. MD 文档的普通内容
                 else {
                     content.append(child.getChars());
                 }
             }
 
             if(!content.isEmpty() && category != null){
-                KnowledgeBaseArticle article = new KnowledgeBaseArticle(category, subCategory,
-                        itemId,StringUtils.trimToEmpty(content.toString()));
+                KnowledgeBaseArticle article = new KnowledgeBaseArticle(category, title,
+                        StringUtils.trimToEmpty(content.toString()));
                 articles.add(article);
             }
 

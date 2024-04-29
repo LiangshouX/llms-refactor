@@ -23,13 +23,13 @@ public class LocalFilesWatcher {
     }
 
     public void watch(Path baseDir){
-        // TODO 完善线程逻辑
-        try {
-            doWatch(baseDir);
-        }
-        catch (IOException e){
-            logger.error("Failed to watch for changes", e);
-        }
+        Thread.ofVirtual().name("local-files-watcher").start(() -> {
+            try {
+                doWatch(baseDir);
+            } catch (IOException e) {
+                logger.error("Failed to watch for changes", e);
+            }
+        });
     }
 
     private void doWatch(Path path) throws IOException {

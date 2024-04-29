@@ -2,6 +2,7 @@ package com.liangshou.llmsrefactor.document;
 
 import com.liangshou.llmsrefactor.document.importer.config.DocumentImporterModuleConfiguration;
 import com.liangshou.llmsrefactor.document.indexer.DocumentIndexerModuleConfiguration;
+import com.liangshou.llmsrefactor.document.loader.DocumentLoaderModuleConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
@@ -16,7 +17,7 @@ import java.util.concurrent.Executor;
 @Configuration
 @Import({
         DocumentIndexerModuleConfiguration.class,
-        // DocumentLoaderModuleConfiguration.class,
+        DocumentLoaderModuleConfiguration.class,
         DocumentImporterModuleConfiguration.class,
 })
 @EnableAsync

@@ -9,6 +9,7 @@ import org.springframework.ai.vectorstore.RedisVectorStore.RedisVectorStoreConfi
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Primary;
 
 import static com.liangshou.llmsrefactor.document.model.DocumentFieldNames.*;
 
@@ -21,6 +22,7 @@ import static com.liangshou.llmsrefactor.document.model.DocumentFieldNames.*;
 @Import(RedisSharedConfiguration.class)
 public class VectorStoreModuleConfiguration {
 
+    @Primary
     @Bean
     public RedisVectorStore redisVectorStore(RedisConfig redisConfig,
                                              EmbeddingClient embeddingClient) {
@@ -29,8 +31,7 @@ public class VectorStoreModuleConfiguration {
                 .withIndexName(redisConfig.indexName())
                 .withMetadataFields(
                         MetadataField.tag(CATEGORY),
-                        MetadataField.text(SUB_CATEGORY),
-                        MetadataField.tag(ITEM_ID),
+                        MetadataField.text(TILE),
                         MetadataField.tag(ARTICLE_ID),
                         MetadataField.numeric(CREATED_AT),
                         MetadataField.numeric(UPDATED_AT)

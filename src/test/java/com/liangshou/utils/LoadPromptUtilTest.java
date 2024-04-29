@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 /**
  * @author X-L-S
  */
+@Deprecated
 @SpringBootTest
 class LoadPromptUtilTest {
     @Test

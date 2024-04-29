@@ -17,7 +17,7 @@ public class Documents {
     public static Document fromArticle(KnowledgeBaseArticle article) {
        Map<String, Object> metadata = Map.of(
                CATEGORY, article.category(),
-               SUB_CATEGORY, article.subCategory(),
+               TILE, article.title(),
                ARTICLE_ID, UUIDs.normalize(article.id()),
                CREATED_AT, article.createAt(),
                UPDATED_AT, article.updateAt()
@@ -30,29 +30,24 @@ public class Documents {
         var metadata = document.getMetadata();
         String category = (String) metadata
                 .getOrDefault(CATEGORY, "");
-        String subCategory = (String) metadata.getOrDefault(SUB_CATEGORY, "");
-        String itemId = (String) metadata.getOrDefault(ITEM_ID, "");
-        String positiveExample = (String) metadata.getOrDefault(POSITIVE_EXAMPLE, "");
-        String counterExample = (String) metadata.getOrDefault(COUNTER_EXAMPLE, "");
-        String note = (String) metadata.getOrDefault(NOTE, "");
+        String title = (String) metadata.getOrDefault(TILE, "");
         return new KnowledgeBaseArticle(
                document.getId(),
                 category,
-                subCategory,
-                itemId,
+                title,
                 document.getContent(),
                 parseTimestamp(metadata, CREATED_AT),
                 parseTimestamp(metadata, UPDATED_AT)
         );
     }
 
-    private static Instant parseTimestamp(Map<String, Object> metadata,
+    private static String parseTimestamp(Map<String, Object> metadata,
                                           String key) {
         String value = (String) metadata.getOrDefault(key, "0");
         try {
-            return Instant.ofEpochSecond(Long.parseLong(value), 0);
+            return Instant.ofEpochSecond(Long.parseLong(value), 0).toString();
         } catch (NumberFormatException e) {
-            return Instant.now();
+            return Instant.now().toString();
         }
     }
 }

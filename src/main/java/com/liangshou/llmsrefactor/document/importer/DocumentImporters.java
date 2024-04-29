@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * 管理所有的 DocumentImporter，
+ *
  * @author X-L-S
  */
 public class DocumentImporters {
