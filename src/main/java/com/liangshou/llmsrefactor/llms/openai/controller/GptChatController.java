@@ -1,5 +1,6 @@
 package com.liangshou.llmsrefactor.llms.openai.controller;
 
+import com.liangshou.llmsrefactor.llms.openai.GptCompletionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.ChatClient;
 import org.springframework.ai.chat.ChatResponse;
@@ -23,17 +24,17 @@ import java.util.Map;
 @Slf4j
 public class GptChatController {
 
-    private final OpenAiChatClient chatClient;
+    private final GptCompletionService completionService;
 
     @Autowired
-    public GptChatController(OpenAiChatClient chatClient){
-        this.chatClient = chatClient;
+    public GptChatController(GptCompletionService completionService){
+        this.completionService = completionService;
     }
 
     @GetMapping("/gpt/generate")
     public Map<String, String> completion(@RequestParam(value = "message", defaultValue = "Hello!")
                                           String message){
-        var value = chatClient.call(message);
+        var value = completionService.completionDemo(message);
         System.out.println("AI RESPONSE：\n\t" + value);
         return Map.of("generation", value);
     }
@@ -42,6 +43,6 @@ public class GptChatController {
     public Flux<ChatResponse> generateStream(@RequestParam(value = "message", defaultValue = "Hello" )
                                              String message){
         Prompt prompt = new Prompt(new UserMessage(message));
-        return chatClient.stream(prompt);
+        return null;
     }
 }

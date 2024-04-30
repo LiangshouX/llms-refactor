@@ -2,6 +2,7 @@ package com.liangshou.llmsrefactor.codedata;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class CodeDataController {
     }
 
     @GetMapping("/save-all")
-    public void saveCodeData() throws IOException {
-        codeDataService.saveFilesToDb();
+    public void saveCodeData(@RequestParam(required = true, defaultValue = "java") String langugeType) throws IOException {
+        codeDataService.saveFilesToDb(langugeType);
     }
 }

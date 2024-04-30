@@ -1,6 +1,10 @@
 package com.liangshou.llmsrefactor.llms.openai;
 
+import com.liangshou.llmsrefactor.codedata.CodeDataRepository;
+import com.liangshou.llmsrefactor.codedata.CodeDataService;
 import com.liangshou.llmsrefactor.knowlefgebase.entity.KnowledgeBaseArticle;
+import com.liangshou.llmsrefactor.pmd.PmdAnalysisService;
+import com.liangshou.llmsrefactor.codedata.constant.CodeDataPathConstant.*;
 import org.springframework.ai.chat.ChatResponse;
 import org.springframework.ai.chat.messages.*;
 import org.springframework.ai.chat.prompt.Prompt;
@@ -9,6 +13,7 @@ import org.springframework.ai.openai.OpenAiChatClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,13 +32,29 @@ public class GptCompletionService {
 
     private final OpenAiChatClient chatClient;
 
+    private final CodeDataRepository codeDataRepository;
+
+    private final PmdAnalysisService pmdAnalysisService;
+
+    private final ResourceLoader resourceLoader;
+
+
     @Value("classpath:/prompts/refactor-code.st")
     private Resource promptCodeRefactor;
 
     @Autowired
-    public GptCompletionService(OpenAiChatClient chatClient){
+    public GptCompletionService(OpenAiChatClient chatClient,
+                                CodeDataRepository codeDataRepository,
+                                PmdAnalysisService pmdAnalysisService,
+                                ResourceLoader resourceLoader){
         this.chatClient = chatClient;
+        this.codeDataRepository = codeDataRepository;
+        this.pmdAnalysisService = pmdAnalysisService;
+        this.resourceLoader = resourceLoader;
     }
+
+
+
 
     /**
      * TODO：通过 ChatGPT 接口发送代码重构指令的方法。所需的一些数据从数据库中加载
@@ -74,6 +95,16 @@ public class GptCompletionService {
                     default -> new UserMessage("");
                 }
         ).toList();
+    }
+
+    /**
+     * 对话测试方法，仅用于测试是否能与 ChatGPT 正常对话
+     * @param msg 消息
+     */
+    @Deprecated
+    public String completionDemo(String msg){
+        var value = chatClient.call(msg);
+        return  value;
     }
 
 }

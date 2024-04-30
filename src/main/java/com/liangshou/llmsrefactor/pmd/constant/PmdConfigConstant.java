@@ -14,4 +14,12 @@ public interface PmdConfigConstant {
     String RULESET_JAVA_PATH = RULESET_ROOT + "java-ruleset.xml";
 
     String RULESET_HTML_PATH = RULESET_ROOT + "html-ruleset.xml";
+
+    String JAVA_CODE_ROOT = CODE_ROOT + "java/";
+
+    String JAVA_CODE_PATH = JAVA_CODE_ROOT + "raw/";
+
+    String JAVA_CODE_CLASS_PATH = JAVA_CODE_ROOT + "raw/class/";
+
+    String HTML_CODE_ROOT = CODE_ROOT + "html/";
 }

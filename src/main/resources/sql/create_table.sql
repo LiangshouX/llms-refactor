@@ -14,8 +14,10 @@ create table if not exists code_data
     language_type       varchar(16)     not null    comment '代码的语言类型',
     origin_code         text            null        comment '重构前的代码内容',
     origin_report       text                        comment '原始的测评报告',
-    origin_num_problem  int                     comment '原代码的检测报告中报告的问题数',
+    origin_num_problem  int                         comment '原代码的检测报告中报告的问题数',
+
     new_code            text                        comment '重构后的代码内容',
+    explanaition        text                        comment '重构的解释',
     new_report          text                        comment '重构后的测评报告',
     new_num_problem     int                         comment '重构后的代码中报告的问题数',
     is_same             boolean                     comment '重构后的代码功能是否一致',

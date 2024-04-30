@@ -15,6 +15,10 @@ import java.nio.file.Files;
 import java.time.Instant;
 import java.util.Arrays;
 
+import static com.liangshou.llmsrefactor.codedata.constant.CodeDataPathConstant.JAVA_RAW_RESOURCE_PATH;
+import static com.liangshou.llmsrefactor.codedata.constant.CodeDataPathConstant.JAVA_RESOURCE_ROOT;
+
+
 /**
  * @author X-L-S
  */
@@ -26,7 +30,7 @@ public class CodeDataService {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final String directoryPath = "codeData";
+    private String rootPath = "codeData";
 
     public CodeDataService(CodeDataRepository codeDataRepository, ResourceLoader resourceLoader){
         this.codeDataRepository = codeDataRepository;
@@ -35,22 +39,33 @@ public class CodeDataService {
 
 
     /**
-     * 将代码所在目录下的代码文件存入数据库中
+     * 将指定语言类型的代码所在目录下的代码文件存入数据库中
      *
      * @throws IOException IO异常
      */
-    public void saveFilesToDb () throws IOException {
-        ClassPathResource resource = new ClassPathResource(directoryPath);
+    public void saveFilesToDb (String languageType) throws IOException {
+        switch (languageType) {
+            case "java":
+                rootPath = JAVA_RAW_RESOURCE_PATH;
+                break;
+            case "python":
+                rootPath = null;
+            default:
+                logger.error("Language Type {} is not supported! ", languageType);
+                throw new RuntimeException();
+        }
+        ClassPathResource resource = new ClassPathResource(rootPath);
         if(resource.exists()){
             File[] files = resource.getFile().listFiles();
             assert files != null;
             for(File file: files){
                 if(file.isFile()){
                     logger.info("Starting save file {} to Database", file.getName());
-                    resourceLoader.getResource("classpath:" + directoryPath + "/" + file.getName());
+                    resourceLoader.getResource("classpath:" + rootPath + "/" + file.getName());
 
                     byte[] content = Files.readAllBytes(file.toPath());
 
+                    // 设置各个字段的属性
                     CodeDataEntity codeData = new CodeDataEntity();
                     codeData.setFileName(file.getName());
                     codeData.setLanguageType(file.getName().split("\\.")[1]);
@@ -59,7 +74,7 @@ public class CodeDataService {
                     codeData.setUpdateAt(Instant.now());
 
                     codeDataRepository.save(codeData);
-                    logger.info("Save file {} successfully", file.getName());
+
                 }
             }
         }
@@ -69,6 +84,6 @@ public class CodeDataService {
     }
 
     public String tmp(){
-        return directoryPath;
+        return rootPath;
     }
 }

@@ -1,8 +1,7 @@
 package com.liangshou.llmsrefactor.pmd;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liangshou.llmsrefactor.codedata.CodeDataRepository;
+import com.liangshou.llmsrefactor.codedata.entity.CodeDataEntity;
 import com.liangshou.llmsrefactor.pmd.entity.PmdAnalysisResult;
 import com.liangshou.llmsrefactor.pmd.entity.PmdViolation;
 import com.liangshou.llmsrefactor.pmd.entity.PmdViolations;
@@ -12,17 +11,20 @@ import net.sourceforge.pmd.reporting.Report;
 import net.sourceforge.pmd.reporting.RuleViolation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Paths;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.liangshou.llmsrefactor.pmd.constant.PmdConfigConstant.RULESET_HTML_PATH;
-import static com.liangshou.llmsrefactor.pmd.constant.PmdConfigConstant.RULESET_JAVA_PATH;
+import static com.liangshou.llmsrefactor.pmd.constant.PmdConfigConstant.*;
 
 /**
  * DBMSMetadata 封装了 JDBC 连接以供 PMD 使用
@@ -43,14 +45,18 @@ public class PmdAnalysisService {
 
     private final CodeDataRepository codeDataRepository;
 
-    public PmdAnalysisService(CodeDataRepository codeDataRepository) throws
+    private final ResourceLoader resourceLoader;
+
+    public PmdAnalysisService(CodeDataRepository codeDataRepository,
+                              ResourceLoader resourceLoader) throws
             SQLException, URISyntaxException, IOException, ClassNotFoundException {
         this.codeDataRepository = codeDataRepository;
+        this.resourceLoader = resourceLoader;
     }
 
 
     /**
-     * TODO: 检测单个的代码文件
+     * TODO: 检测单个的代码片段
      *
      * @param codeSnippet 代码片段
      */
@@ -78,19 +84,108 @@ public class PmdAnalysisService {
         return config;
     }
 
+    /**
+     * 扫描完整的代码数据目录，全部执行检测，返回检测结果
+     *
+     * @param config PMD检测器配置
+     * @param languageType  语言的类型
+     * @param isOrigin 是否为原始代码
+     * @return 结果列表
+     */
+    public List<String> analyzePath (PMDConfiguration config, String languageType, boolean isOrigin) {
 
-    public String analyzeCode(PMDConfiguration config, String fileRoot, String fileName) {
+        String fileRoot;
+
+        switch (languageType) {
+            case "java":
+                fileRoot = JAVA_CODE_ROOT;
+                break;
+            case "html":
+                fileRoot = HTML_CODE_ROOT;
+                break;
+            default:
+                logger.error("Language type {} is not surpportted! ", languageType);
+                throw new RuntimeException();
+        }
+
+        String filePath = isOrigin? fileRoot + "raw/" : fileRoot + "refactored/";
+
+        File dir = new File(filePath);
+
+        List<String> results = new ArrayList<>();
+
+
+        if (dir.exists() && dir.isDirectory()){
+            File[] files = dir.listFiles();
+            if (files != null){
+                for (File file: files){
+                    // 如果是文件
+                    if (file.isFile()) {
+                        // TODO: 执行检测并将结果存入数据库
+                        String fileName = file.getName();
+                        logger.info("Analyzing file {} ...", fileName);
+                        PmdAnalysisResult analysisResult = analyzeCode(config, filePath, file.getName());
+
+                        CodeDataEntity codeEntity = codeDataRepository.findByFileName(fileName).get();
+
+                        if (isOrigin) {
+                            codeEntity.setOriginReport(analysisResult.getResultJson());
+                            codeEntity.setOriginNumProblem(analysisResult.getTotal());
+                        }
+                        else {
+                            codeEntity.setNewReport(analysisResult.getResultJson());
+                            codeEntity.setNewNumProblem(analysisResult.getTotal());
+                        }
+
+                        codeEntity.setUpdateAt(Instant.now());
+
+                        codeDataRepository.save(codeEntity);
+                    }
+                    else {
+                        System.out.println("%s is not file.".formatted(file));
+                    }
+                }
+            }
+            else{
+                logger.warn("The directory {} is empty", dir);
+            }
+        }
+        else {
+            logger.warn("Invalid directory path: {]", dir.getAbsolutePath());
+        }
+
+
+        return results;
+    }
+
+
+    /**
+     * 执行对单个代码文件的检测，返回值为解析为了 JSON 格式的字符串
+     *
+     * @param config PMD检测器配置
+     * @param filePath 文件存放路径
+     * @param fileName 文件名
+     * @return JSON 格式的字符串
+     */
+    public PmdAnalysisResult analyzeCode(PMDConfiguration config, String filePath, String fileName) {
+
+        PmdAnalysisResult analysisResult = new PmdAnalysisResult();
 
         try (PmdAnalysis pmd = PmdAnalysis.create(config)){
-            pmd.files().addFile(Paths.get(fileRoot, fileName));
+            pmd.files().addFile(Paths.get(filePath, fileName));
             Report report = pmd.performAnalysisAndCollectReport();
 
             PmdViolations violations = collectViolation(fileName, report.getViolations());
 
-            return parseAnalysisResultToJson(violations);
+            analysisResult.setTotal(report.getViolations().size());
+
+            analysisResult.setResultJson(parseAnalysisResultToJson(violations));
+
+            // return parseAnalysisResultToJson(violations);
+            return analysisResult;
 
         }catch (Exception e){
-            logger.error("Analyse file {} failed int path {}", fileName, fileRoot);
+            logger.error("Analyse file {} failed int path {}", fileName, filePath);
             return null;
         }
 
