@@ -1,4 +1,4 @@
-package com.liangshou.llmsrefactor.rabbitmq;
+package com.liangshou.llmsrefactor.llms.refactorengin.rabbitmq;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;

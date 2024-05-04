@@ -19,6 +19,8 @@ public interface PmdConfigConstant {
 
     String JAVA_CODE_PATH = JAVA_CODE_ROOT + "raw/";
 
+    String JAVA_REFACTORED_PATH = JAVA_CODE_ROOT + "refactored/";
+
     String JAVA_CODE_CLASS_PATH = JAVA_CODE_ROOT + "raw/class/";
 
     String HTML_CODE_ROOT = CODE_ROOT + "html/";

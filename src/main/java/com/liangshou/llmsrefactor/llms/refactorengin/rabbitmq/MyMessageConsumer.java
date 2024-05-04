@@ -1,4 +1,4 @@
-package com.liangshou.llmsrefactor.rabbitmq;
+package com.liangshou.llmsrefactor.llms.refactorengin.rabbitmq;
 
 import com.liangshou.llmsrefactor.llms.openai.GptCompletionService;
 import com.rabbitmq.client.Channel;
@@ -27,10 +27,11 @@ public class MyMessageConsumer {
     @RabbitListener(queues = {"code_queue"}, ackMode = "MANUAL")
     public void receiveMessage(String message, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag) {
         logger.info("receiveMessage message = {}", message);
-        long questionSubmitId = Long.parseLong(message);
+        long cedeId = Long.parseLong(message);
         try {
-            // gptCompletionService.doJudge(questionSubmitId);
+            gptCompletionService.refactorCompletion(cedeId);
             channel.basicAck(deliveryTag, false);
+            logger.info("Consumed message = {}", message);
         } catch (Exception e) {
             channel.basicNack(deliveryTag, false, false);
         }

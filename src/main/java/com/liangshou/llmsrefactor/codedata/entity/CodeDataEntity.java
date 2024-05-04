@@ -40,8 +40,6 @@ public class CodeDataEntity {
     @Column(name = "new_code")
     String newCode;
 
-    @Column(name = "explanaition")
-    String explanaition;
 
     @Column(name = "new_report")
     String newReport;

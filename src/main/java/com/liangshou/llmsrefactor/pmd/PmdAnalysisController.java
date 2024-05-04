@@ -1,5 +1,8 @@
 package com.liangshou.llmsrefactor.pmd;
 
+import com.liangshou.llmsrefactor.codedata.CodeDataRepository;
+import com.liangshou.llmsrefactor.codedata.entity.CodeDataEntity;
+import com.liangshou.llmsrefactor.pmd.entity.PmdAnalysisResult;
 import com.liangshou.llmsrefactor.pmd.entity.PmdViolations;
 import jakarta.annotation.Resource;
 import net.sourceforge.pmd.PMDConfiguration;
@@ -9,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLException;
+import java.time.Instant;
 import java.util.Map;
 
-import static com.liangshou.llmsrefactor.pmd.constant.PmdConfigConstant.CODE_ROOT;
-import static com.liangshou.llmsrefactor.pmd.constant.PmdConfigConstant.JAVA_CODE_PATH;
+import static com.liangshou.llmsrefactor.pmd.constant.PmdConfigConstant.*;
 
 /**
  * @author X-L-S
@@ -22,11 +25,40 @@ public class PmdAnalysisController {
     @Resource
     private PmdAnalysisService pmdAnalysisService;
 
+    @Resource
+    private CodeDataRepository codeDataRepository;
+
     @GetMapping("/analysis")
-    public String doAnalysis(){
+    public String doAnalysis(@RequestParam(defaultValue = "POWERSET.java") String fileName,
+                             @RequestParam(defaultValue = "origin") String codeType){
+        String filePath;
+
+        switch (codeType) {
+            case "origin":
+                filePath = JAVA_CODE_PATH;
+                break;
+            case "new":
+                filePath = JAVA_REFACTORED_PATH;
+                break;
+            default:
+                throw new RuntimeException("Code Type Error: in origin or new.");
+        }
+
         PMDConfiguration config = pmdAnalysisService.createPmdConfig("java");
-        String fileName = "BREADTH_FIRST_SEARCH.java";
-        return pmdAnalysisService.analyzeCode(config, JAVA_CODE_PATH, fileName).getResultJson();
+
+        PmdAnalysisResult result = pmdAnalysisService.analyzeCode(config, filePath, fileName);
+
+        CodeDataEntity codeEntity = codeDataRepository.findByFileName(fileName).get();
+
+        codeEntity.setNewReport(result.getResultJson());
+        codeEntity.setNewNumProblem(result.getTotal());
+
+
+        codeEntity.setUpdateAt(Instant.now());
+
+        codeDataRepository.save(codeEntity);
+
+        return result.getResultJson();
     }
 
     @GetMapping("/analysis/path")

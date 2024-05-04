@@ -1,4 +1,4 @@
-package com.liangshou.llmsrefactor.rabbitmq;
+package com.liangshou.llmsrefactor.llms.refactorengin.rabbitmq;
 
 import jakarta.annotation.Resource;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

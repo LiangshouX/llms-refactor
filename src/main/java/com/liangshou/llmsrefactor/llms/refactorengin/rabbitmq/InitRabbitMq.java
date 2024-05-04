@@ -1,4 +1,4 @@
-package com.liangshou.llmsrefactor.rabbitmq;
+package com.liangshou.llmsrefactor.llms.refactorengin.rabbitmq;
 
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
