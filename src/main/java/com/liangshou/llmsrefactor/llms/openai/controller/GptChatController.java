@@ -29,14 +29,19 @@ public class GptChatController {
     }
 
     @GetMapping("/gpt/generate")
-    public Map<String, String> completion(@RequestParam(value = "message", defaultValue = "Hello!")
+    public String completion(@RequestParam(value = "message", defaultValue = "Hello!")
                                           String message){
         var value = completionService.completionDemo(message);
         System.out.println("AI RESPONSE：\n\t" + value);
-        return Map.of("generation", value);
+        return value;
     }
 
-    @PostMapping("/gpt/code")
+    @GetMapping("/gpt/multi")
+    public void multiCompletion(@RequestParam(defaultValue = "1") String id){
+        completionService.multiCompletion(Long.parseLong(id));
+    }
+
+    @GetMapping("/gpt/code")
     public String refactorCodeById(Long id){
         return completionService.refactorCompletion(id).get("generation");
     }

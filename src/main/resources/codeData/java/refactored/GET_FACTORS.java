@@ -1,22 +1,20 @@
-
-package java_programs;
-
 import java.util.ArrayList;
+import java.util.List;
 
-public class GetFactors {
-    public static ArrayList<Integer> getFactors(int n) {
-        if (n == 1) {
-            return new ArrayList<Integer>();
+public class FactorCalculator {
+    public static List<Integer> calculateFactors(int number) {
+        if (number == 1) {
+            return new ArrayList<>();
         }
-        int max = (int)(Math.sqrt(n) + 1.0);
-        for (int i=2; i < max; i++) {
-            if (n % i == 0) {
-                ArrayList<Integer> prepend = new ArrayList<Integer>(0);
-                prepend.add(i);
-                prepend.addAll(getFactors(n / i));
-                return prepend;
+        int max = (int) (Math.sqrt(number) + 1.0);
+        for (int i = 2; i < max; i++) {
+            if (number % i == 0) {
+                List<Integer> factors = new ArrayList<>();
+                factors.add(i);
+                factors.addAll(calculateFactors(number / i));
+                return factors;
             }
         }
-        return new ArrayList<Integer>();
+        return new ArrayList<>();
     }
 }

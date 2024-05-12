@@ -1,17 +1,13 @@
-
-package java_programs;
-import java.util.*;
-
-public class REVERSE_LINKED_LIST {
-    public static Node reverse_linked_list(Node node) {
-        Node prevnode = null;
-        Node nextnode;
-        while (node != null) {
-            nextnode = node.getSuccessor();
-            node.setSuccessor(prevnode);
-            prevnode = node;
-            node = nextnode;
+public class LinkedListUtils {
+    public static Node reverseLinkedList(Node inputNode) {
+        Node reversedNode = null;
+        Node nextNode;
+        while (inputNode != null) {
+            nextNode = inputNode.getSuccessor();
+            inputNode.setSuccessor(reversedNode);
+            reversedNode = inputNode;
+            inputNode = nextNode;
         }
-        return prevnode;
+        return reversedNode;
     }
 }

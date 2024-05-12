@@ -1,11 +1,12 @@
 package java_programs.extra;
 
-import java.util.*;
-import java.io.*;
-import java.awt.Point;
-import static java.lang.Math.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
-public class NESTED_PARENS_orig {
+public class NestedParens {
     public static void main(String[] args) throws Exception {
         Scanner in = new Scanner(System.in);
         CAS: while(in.hasNext()) {
@@ -26,8 +27,8 @@ public class NESTED_PARENS_orig {
         }
     }
 
-    public static <T> List<T> list() { return new ArrayList<T>(); }
-    public static <K,V> Map<K,V> map() { return new HashMap<K,V>(); }
+    public static <T> List<T> list() { return new ArrayList<>(); }
+    public static <K,V> Map<K,V> map() { return new HashMap<>(); }
     public static int i(String s) { return Integer.parseInt(s); }
     public static long l(String s) { return Long.parseLong(s); }
 }

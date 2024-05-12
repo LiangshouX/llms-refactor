@@ -1,21 +1,19 @@
-package com.liangshou.llmsrefactor.pmd;
+package com.liangshou.llmsrefactor.metrics.pmd;
 
-import com.liangshou.llmsrefactor.codedata.CodeDataRepository;
+import com.liangshou.llmsrefactor.codedata.repository.CodeDataRepository;
 import com.liangshou.llmsrefactor.codedata.entity.CodeDataEntity;
-import com.liangshou.llmsrefactor.pmd.entity.PmdAnalysisResult;
-import com.liangshou.llmsrefactor.pmd.entity.PmdViolations;
+import com.liangshou.llmsrefactor.metrics.pmd.entity.PmdAnalysisResult;
+import com.liangshou.llmsrefactor.metrics.pmd.entity.ResultAnalysisEntity;
 import jakarta.annotation.Resource;
 import net.sourceforge.pmd.PMDConfiguration;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLException;
 import java.time.Instant;
-import java.util.Map;
 
-import static com.liangshou.llmsrefactor.pmd.constant.PmdConfigConstant.*;
+import static com.liangshou.llmsrefactor.metrics.pmd.constant.PmdConfigConstant.*;
 
 /**
  * @author X-L-S
@@ -58,29 +56,38 @@ public class PmdAnalysisController {
 
         codeDataRepository.save(codeEntity);
 
+        System.out.println(result.getTotal());
         return result.getResultJson();
     }
 
     @GetMapping("/analysis/path")
     public void analyzePath (@RequestParam(defaultValue = "java") String languageType,
                              @RequestParam(defaultValue = "origin") String codeType){
-        boolean isOrigin;
-        switch (codeType) {
-            case "origin":
-                isOrigin = true;
-                break;
-            case "new":
-                isOrigin = false;
-                break;
-            default:
-                throw new RuntimeException("Code Type Error: in origin or new.");
-        }
+        boolean isOrigin = switch (codeType) {
+            case "origin" -> true;
+            case "new" -> false;
+            default -> throw new RuntimeException("Code Type Error: in origin or new.");
+        };
         PMDConfiguration config = pmdAnalysisService.createPmdConfig("java");
         pmdAnalysisService.analyzePath(config, languageType, isOrigin);
     }
 
+    @GetMapping("/analysis/result/single")
+    public ResultAnalysisEntity singleResultAnalysis (@RequestParam(defaultValue = "1") String codeId,
+                                                      @RequestParam(defaultValue = ORIGIN) String analysisType) {
+        long id = Long.parseLong(codeId);
+        boolean isOrigin = analysisType.equals(ORIGIN);
+        return pmdAnalysisService.resultAnalysis(id, isOrigin);
+    }
+
+    @GetMapping("/analysis/result")
+    public ResultAnalysisEntity resultAnalysis (@RequestParam(defaultValue = ORIGIN) String analysisType) {
+        boolean isOrigin = analysisType.equals(ORIGIN);
+        return pmdAnalysisService.resultAnalysisAll(isOrigin);
+    }
+
     @GetMapping("/analysis/tes")
-    public String tesDb(@RequestParam(required = true, defaultValue = "修狗") String name)
+    public String tesDb(@RequestParam(required = true, defaultValue = "吴晓豪") String name)
             throws SQLException {
         return """
                   嘿嘿嘿，小笨蛋%s，没想到吧？就逗你玩，略略略略略~~~~

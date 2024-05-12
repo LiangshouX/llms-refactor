@@ -1,22 +1,18 @@
+public class BinarySearch {
 
-package java_programs;
-import java.util.*;
+    public static int findFirstInSortedArray(final int[] array, final int target) {
+        int left = 0;
+        int right = array.length;
 
-public class FIND_FIRST_IN_SORTED {
+        while (left < right) {
+            int mid = left + (right - left) / 2;
 
-    public static int find_first_in_sorted(int[] arr, int x) {
-        int lo = 0;
-        int hi = arr.length - 1;
-
-        while (lo <= hi) {
-            int mid = lo + (hi - lo) / 2;
-
-            if (x == arr[mid] && (mid == 0 || x != arr[mid-1])) {
+            if (target == array[mid] && (mid == 0 || target != array[mid-1])) {
                 return mid;
-            } else if (x <= arr[mid]) {
-                hi = mid - 1;
+            } else if (target <= array[mid]) {
+                right = mid;
             } else {
-                lo = mid + 1;
+                left = mid + 1;
             }
         }
 

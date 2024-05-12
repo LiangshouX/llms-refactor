@@ -8,6 +8,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
+ * TODO：这个类目前基本还没用到
  * @author X-L-S
  */
 public record CodeData (String id,
@@ -34,6 +35,7 @@ public record CodeData (String id,
             @Nullable @JsonProperty("languageType")Integer newNumProblem,
             @Nullable @JsonProperty("isSame") Boolean isSame
     ){
+        // TODO id列不应该是 UUID，需进一步修改
         this(UUID.randomUUID().toString(),
                 fileName,
                 languageType,

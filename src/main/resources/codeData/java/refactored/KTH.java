@@ -1,14 +1,9 @@
-
-package java_programs;
-import java.util.ArrayList;
-
-public class KTH {
-    public static Integer kth(ArrayList<Integer> arr, int k) {
-        int pivot = arr.get(0);
-        ArrayList<Integer> below = new ArrayList<>();
-        ArrayList<Integer> above = new ArrayList<>();
-        
-        for (Integer x : arr) {
+public class Kth {
+    public static Integer kth(final List<Integer> arr, final int k) {
+        final int pivot = arr.get(0);
+        final List<Integer> below = new ArrayList<>();
+        final List<Integer> above = new ArrayList<>();
+        for (final Integer x : arr) {
             if (x < pivot) {
                 below.add(x);
             } else if (x > pivot) {
@@ -16,12 +11,11 @@ public class KTH {
             }
         }
 
-        int num_less = below.size();
-        int num_lessoreq = arr.size() - above.size();
-        
-        if (k < num_less) {
+        final int numLess = below.size();
+        final int numLessOrEq = arr.size() - above.size();
+        if (k < numLess) {
             return kth(below, k);
-        } else if (k >= num_lessoreq) {
+        } else if (k >= numLessOrEq) {
             return kth(above, k);
         } else {
             return pivot;

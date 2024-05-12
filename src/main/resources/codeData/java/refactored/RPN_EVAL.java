@@ -1,27 +1,22 @@
+public class RpnEvaluator {
+    public static Double evaluateRpn(final ArrayList<Object> tokens) {
+        final Map<String, BinaryOperator<Double>> operators = new HashMap<>();
+        operators.put("+", (a, b) -> a + b);
+        operators.put("-", (a, b) -> a - b);
+        operators.put("*", (a, b) -> a * b);
+        operators.put("/", (a, b) -> a / b);
 
-package java_programs;
-import java.util.*;
-import java.util.function.BinaryOperator;
+        final Stack<Double> stack = new Stack<>();
 
-public class RPN_EVAL {
-    public static Double rpn_eval(ArrayList<Object> tokens) {
-        Map<String, BinaryOperator<Double>> op = new HashMap<>();
-        op.put("+", (a, b) -> a + b);
-        op.put("-", (a, b) -> a - b);
-        op.put("*", (a, b) -> a * b);
-        op.put("/", (a, b) -> a / b);
-
-        Stack<Double> stack = new Stack<>();
-
-        for (Object token : tokens) {
+        for (final Object token : tokens) {
             if (token instanceof Double) {
                 stack.push((Double) token);
             } else {
-                String operator = (String) token;
-                Double b = stack.pop();
-                Double a = stack.pop();
-                BinaryOperator<Double> bin_op = op.get(operator);
-                Double result = bin_op.apply(a, b);
+                final String operator = (String) token;
+                final Double operand1 = stack.pop();
+                final Double operand2 = stack.pop();
+                final BinaryOperator<Double> binaryOperator = operators.get(operator);
+                final Double result = binaryOperator.apply(operand2, operand1);
                 stack.push(result);
             }
         }

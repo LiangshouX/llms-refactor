@@ -1,4 +1,4 @@
-package com.liangshou.llmsrefactor.pmd.demos;
+package com.liangshou.llmsrefactor.metrics.pmd.demos;
 
 import net.sourceforge.pmd.util.database.DBURI;
 

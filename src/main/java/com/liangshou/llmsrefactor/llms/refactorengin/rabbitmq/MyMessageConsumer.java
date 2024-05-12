@@ -11,6 +11,9 @@ import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 
+import static com.liangshou.llmsrefactor.llms.refactorengin.rabbitmq.MqConstant.CODE_COMPARE;
+import static com.liangshou.llmsrefactor.llms.refactorengin.rabbitmq.MqConstant.CODE_DATA;
+
 /**
  * @author X-L-S
  */
@@ -27,13 +30,20 @@ public class MyMessageConsumer {
     @RabbitListener(queues = {"code_queue"}, ackMode = "MANUAL")
     public void receiveMessage(String message, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag) {
         logger.info("receiveMessage message = {}", message);
-        long cedeId = Long.parseLong(message);
+        String dataType = message.split(":")[0];
+        long codeId = Long.parseLong(message.split(":")[1]);
         try {
-            gptCompletionService.refactorCompletion(cedeId);
+            if (dataType.equals(CODE_DATA)){
+                gptCompletionService.refactorCompletion(codeId);
+            }
+            else if (dataType.equals(CODE_COMPARE)){
+                gptCompletionService.codeRefactorCompare(codeId);
+            }
             channel.basicAck(deliveryTag, false);
             logger.info("Consumed message = {}", message);
         } catch (Exception e) {
             channel.basicNack(deliveryTag, false, false);
         }
     }
+
 }

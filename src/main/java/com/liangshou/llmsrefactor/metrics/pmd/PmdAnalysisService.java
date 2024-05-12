@@ -1,10 +1,13 @@
-package com.liangshou.llmsrefactor.pmd;
+package com.liangshou.llmsrefactor.metrics.pmd;
 
-import com.liangshou.llmsrefactor.codedata.CodeDataRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.liangshou.llmsrefactor.codedata.repository.CodeDataRepository;
 import com.liangshou.llmsrefactor.codedata.entity.CodeDataEntity;
-import com.liangshou.llmsrefactor.pmd.entity.PmdAnalysisResult;
-import com.liangshou.llmsrefactor.pmd.entity.PmdViolation;
-import com.liangshou.llmsrefactor.pmd.entity.PmdViolations;
+import com.liangshou.llmsrefactor.metrics.pmd.entity.PmdAnalysisResult;
+import com.liangshou.llmsrefactor.metrics.pmd.entity.PmdViolation;
+import com.liangshou.llmsrefactor.metrics.pmd.entity.PmdViolations;
+import com.liangshou.llmsrefactor.metrics.pmd.entity.ResultAnalysisEntity;
+import io.swagger.models.auth.In;
 import net.sourceforge.pmd.PMDConfiguration;
 import net.sourceforge.pmd.PmdAnalysis;
 import net.sourceforge.pmd.reporting.Report;
@@ -18,13 +21,14 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import static com.liangshou.llmsrefactor.pmd.constant.PmdConfigConstant.*;
+import static com.liangshou.llmsrefactor.metrics.pmd.constant.PmdConfigConstant.*;
 
 /**
  * DBMSMetadata 封装了 JDBC 连接以供 PMD 使用
@@ -45,24 +49,15 @@ public class PmdAnalysisService {
 
     private final CodeDataRepository codeDataRepository;
 
-    private final ResourceLoader resourceLoader;
+    private final ObjectMapper objectMapper;
 
     public PmdAnalysisService(CodeDataRepository codeDataRepository,
-                              ResourceLoader resourceLoader) throws
+                              ObjectMapper objectMapper) throws
             SQLException, URISyntaxException, IOException, ClassNotFoundException {
         this.codeDataRepository = codeDataRepository;
-        this.resourceLoader = resourceLoader;
+        this.objectMapper = objectMapper;
     }
 
-
-    /**
-     * TODO: 检测单个的代码片段
-     *
-     * @param codeSnippet 代码片段
-     */
-    public void checkCodeSnippet (String codeSnippet) {
-
-    }
 
     public PMDConfiguration createPmdConfig(String languageType) {
         PMDConfiguration config = new PMDConfiguration();
@@ -142,7 +137,7 @@ public class PmdAnalysisService {
                         codeDataRepository.save(codeEntity);
                     }
                     else {
-                        System.out.println("%s is not file.".formatted(file));
+                        System.out.printf("%s is not file.%n", file);
                     }
                 }
             }
@@ -151,7 +146,7 @@ public class PmdAnalysisService {
             }
         }
         else {
-            logger.warn("Invalid directory path: {]", dir.getAbsolutePath());
+            logger.warn("Invalid directory path: {}", dir.getAbsolutePath());
         }
 
 
@@ -209,10 +204,94 @@ public class PmdAnalysisService {
             String ruleSet = ruleViolation.getRule().getRuleSetName();
             Integer priority = ruleViolation.getRule().getPriority().getPriority();
 
-            PmdViolation pmdViolation = new PmdViolation(beginLine,endLine,description,rule,ruleSet,priority);
+            PmdViolation pmdViolation = new PmdViolation(description,rule,ruleSet,priority);
             violationList.add(pmdViolation);
         }
         return new PmdViolations(fileName, violationList);
+    }
+
+    /**
+     * 对所有的记录分析统计结果
+     *
+     */
+    public ResultAnalysisEntity resultAnalysisAll (boolean isOrigin) {
+        List<Integer> totalProblemCount = new ArrayList<>();
+
+        int totalProblems = 0;
+        Map<String, Integer> ruleSetCounts = new HashMap<>();
+        Map<Integer,Integer> priorityCounts = new HashMap<>();
+
+        for (long id = 1L; id <= 48; id++){
+            ResultAnalysisEntity singleAnalysis = resultAnalysis(id, isOrigin);
+
+            // 统计全部的问题数
+            totalProblems += singleAnalysis.totalProblems();
+            totalProblemCount.add(singleAnalysis.totalProblems());
+
+            // 统计全部的 ruleset
+            for (String key: singleAnalysis.ruleSetCounts().keySet()) {
+                Integer value = singleAnalysis.ruleSetCounts().get(key);
+                ruleSetCounts.put(key, ruleSetCounts.getOrDefault(key, 0) + value);
+            }
+
+            // 统计全部的 priority
+            for (Integer key: singleAnalysis.priorityCounts().keySet()) {
+                Integer value = singleAnalysis.priorityCounts().get(key);
+                priorityCounts.put(key, priorityCounts.getOrDefault(key, 0) + value);
+            }
+
+            if (id % 5 == 0) {
+                logger.info("前 {} 条记录的 {} 结果统计完成...", id, isOrigin?"原始":"重构后");
+            }
+        }
+        System.out.println("Problem Count:\t" + totalProblemCount.toString());
+
+        return new ResultAnalysisEntity(totalProblems, ruleSetCounts, priorityCounts);
+    }
+
+    /**
+     * 对单条数据记录项的结果分析，分别分析原本的数据和重构后的数据
+     * @param id 数据id
+     */
+    public ResultAnalysisEntity resultAnalysis (Long id, boolean isOrigin) {
+        int totalProblems;
+        Map<String, Integer> singleRuleSetCounts = new HashMap<>();
+        Map<Integer,Integer> singlePriorityCounts = new HashMap<>();
+
+        CodeDataEntity codeData = codeDataRepository.findById(id).get();
+
+        String originReport = codeData.getOriginReport();
+        String newReport = codeData.getNewReport();
+
+        PmdViolations originViolations = parseJsonToAnalysisResult(originReport);
+        PmdViolations newViolations = parseJsonToAnalysisResult(newReport);
+
+        PmdViolations violations = isOrigin?originViolations:newViolations;
+
+        try {
+            if (violations == null){
+                logger.info("CodeData {} has no {} violations, return null.", id, isOrigin?"origin":"new");
+                return null;
+            }
+
+            totalProblems = violations.total();
+            // 统计每一类 ruleset 的数量
+            for (PmdViolation violation: violations.violations()) {
+                singleRuleSetCounts.put(violation.ruleSet(),
+                        singleRuleSetCounts.getOrDefault(violation.ruleSet(), 0) + 1);
+            }
+            // 统计每个 priority 的数量
+            for (PmdViolation violation: violations.violations()){
+                singlePriorityCounts.put(violation.priority(),
+                        singlePriorityCounts.getOrDefault(violation.priority(), 0) + 1);
+            }
+
+            return new ResultAnalysisEntity(totalProblems, singleRuleSetCounts, singlePriorityCounts);
+
+        } catch (Exception e){
+            logger.error("Exception take place in resultAnalysis ", e);
+            return null;
+        }
     }
 
 
@@ -229,5 +308,19 @@ public class PmdAnalysisService {
             return null;
         }
 
+    }
+
+    /**
+     * 将 JSON 结果串转换成 PmdViolations 对象
+     * @param json JSON结果
+     */
+    private PmdViolations parseJsonToAnalysisResult (String json) {
+        try {
+            return objectMapper.readValue(json, PmdViolations.class);
+        }
+        catch (Exception e) {
+            logger.error("Exception take place when transfer json to PmdViolations object", e);
+            return null;
+        }
     }
 }

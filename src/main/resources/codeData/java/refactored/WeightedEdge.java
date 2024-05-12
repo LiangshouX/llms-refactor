@@ -1,5 +1,5 @@
-
 package java_programs;
+import java.util.*;
 
 public class WeightedEdge implements Comparable<WeightedEdge>{
     public Node node1;
@@ -7,25 +7,17 @@ public class WeightedEdge implements Comparable<WeightedEdge>{
     public int weight;
 
     public WeightedEdge () {
-        node1 = null;
-        node2 = null;
-        weight = 0;
+        this(null, null, 0);
     }
-
-    public WeightedEdge (Node node1, Node node2, int weight) {
+    public WeightedEdge (final Node node1, final Node node2, final int weight) {
         this.node1 = node1;
         this.node2 = node2;
         this.weight = weight;
     }
-
     @Override
-    public int compareTo(WeightedEdge compareNode) {
-        int compareWeight= compareNode.weight;
+    public int compareTo(final WeightedEdge compareNode) {
+        int compareWeight = compareNode.weight;
 
-        //ascending order
-        return this.weight - compareWeight;
-
-        //descending order
-        //return compareWeight - this.weight;
+        return Integer.compare(this.weight, compareWeight);
     }
 }

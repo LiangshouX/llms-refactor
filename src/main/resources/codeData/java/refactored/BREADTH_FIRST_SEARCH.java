@@ -1,15 +1,12 @@
 package java_programs;
-
-import java.util.ArrayDeque;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class BreadthFirstSearch {
 
-    public static Set<Node> nodesVisited = new HashSet<>();
+    private static final Set<Node> nodesVisited = new HashSet<>();
 
-    public static boolean breadthFirstSearch(Node startNode, Node goalNode) {
-        ArrayDeque<Node> queue = new ArrayDeque<>();
+    public static boolean breadthFirstSearch(final Node startNode, final Node goalNode) {
+        Deque<Node> queue = new ArrayDeque<>();
         queue.addLast(startNode);
 
         nodesVisited.add(startNode);

@@ -9,41 +9,36 @@
         rules for Code Refactoring
     </description>
 
-    <rule ref="rulesets/java/quickstart.xml"/>
+<!--    <rule ref="rulesets/java/quickstart.xml"/>-->
+
 
     <!-- 分别批量引入 PMD 的8个类别的内置规则，参考：https://pmd.github.io/pmd/pmd_rules_java.html -->
     <!-- Code Style类别下的规则 -->
-<!--    <rule ref="category/java/codestyle.xml">-->
-<!--        <exclude name="WhileLoopsMustUseBraces"/>-->
-<!--        <exclude name="IfElseStmtsMustUseBraces"/>-->
-<!--    </rule>-->
+    <rule ref="category/java/codestyle.xml">
+        <exclude name="UnnecessaryImport"/>
+    </rule>
 
-<!--    <rule ref="category/java/bestpractices.xml">-->
+    <rule ref="category/java/bestpractices.xml">
+    </rule>
 
-<!--    </rule>-->
 
-<!--    <rule ref="category/java/design.xml">-->
+    <rule ref="category/java/design.xml">
+    </rule>
 
-<!--    </rule>-->
+    <rule ref="category/java/documentation.xml">
+        <exclude name="CommentRequired"/>
+    </rule>
 
-<!--    <rule ref="category/java/documentation.xml">-->
+    <rule ref="category/java/errorprone.xml">
+    </rule>
 
-<!--    </rule>-->
+    <rule ref="category/java/multithreading.xml">
+    </rule>
 
-<!--    <rule ref="category/java/errorprone.xml">-->
+    <rule ref="category/java/performance.xml">
+    </rule>
 
-<!--    </rule>-->
-
-<!--    <rule ref="category/java/multithreading.xml">-->
-
-<!--    </rule>-->
-
-<!--    <rule ref="category/java/performance.xml">-->
-
-<!--    </rule>-->
-
-<!--    <rule ref="category/java/security.xml">-->
-
-<!--    </rule>-->
+    <rule ref="category/java/security.xml">
+    </rule>
 
 </ruleset>

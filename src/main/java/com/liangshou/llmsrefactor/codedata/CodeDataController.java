@@ -21,7 +21,9 @@ public class CodeDataController {
     }
 
     @GetMapping("/save-all")
-    public void saveCodeData(@RequestParam(required = true, defaultValue = "java") String langugeType) throws IOException {
-        codeDataService.saveFilesToDb(langugeType);
+    public void saveCodeData(@RequestParam(required = true, defaultValue = "java") String langugeType,
+                             @RequestParam(defaultValue = "compare") String isCompare)
+            throws IOException {
+        codeDataService.saveFilesToDb(langugeType, isCompare.equals("compare"));
     }
 }

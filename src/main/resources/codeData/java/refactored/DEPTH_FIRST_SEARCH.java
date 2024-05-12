@@ -1,11 +1,7 @@
 
-package java_programs;
-import java.util.*;
-
 public class DepthFirstSearch {
-    public static boolean depthFirstSearch(Node startNode, Node goalNode) {
+    public static boolean depthFirstSearch(final Node startNode, final Node goalNode) {
         Set<Node> nodesVisited = new HashSet<>();
-        
         class Search {
             boolean search(Node node) {
                 if (nodesVisited.contains(node)) {
@@ -14,16 +10,14 @@ public class DepthFirstSearch {
                     return true;
                 } else {
                     for (Node successorNode : node.getSuccessors()) {
-                        if (search(successorNode)) { 
-                            return true; 
-                        }
+                        if (search(successorNode)) { return true; }
                     }
                 }
                 return false;
             }
         };
 
-        Search s = new Search();
-        return s.search(startNode);
+        Search searchOperation = new Search();
+        return searchOperation.search(startNode);
     }
 }

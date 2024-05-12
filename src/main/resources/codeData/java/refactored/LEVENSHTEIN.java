@@ -1,9 +1,9 @@
+public class LevenshteinUtils {
+    private LevenshteinUtils() {
+        // private constructor to prevent instantiation
+    }
 
-package java_programs;
-import java.util.*;
-
-public class LEVENSHTEIN {
-    public static int levenshtein(String source, String target) {
+    public static int levenshtein(final String source, final String target) {
         if (source.isEmpty() || target.isEmpty()) {
             return source.isEmpty() ? target.length() : source.length();
         } else if (source.charAt(0) == target.charAt(0)) {

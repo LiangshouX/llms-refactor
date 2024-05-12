@@ -1,6 +1,7 @@
-
 package java_programs;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PASCAL {
     public static List<List<Integer>> pascal(int n) {
@@ -12,8 +13,17 @@ public class PASCAL {
         for (int r = 1; r < n; r++) {
             List<Integer> row = new ArrayList<>();
             for (int c = 0; c < r; c++) {
-                int upleft = (c > 0) ? rows.get(r - 1).get(c - 1) : 0;
-                int upright = (c < r) ? rows.get(r - 1).get(c) : 0;
+                int upleft, upright;
+                if (c > 0) {
+                    upleft = rows.get(r - 1).get(c - 1);
+                } else {
+                    upleft = 0;
+                }
+                if (c < r) {
+                    upright = rows.get(r - 1).get(c);
+                } else {
+                    upright = 0;
+                }
                 row.add(upleft + upright);
             }
             rows.add(row);

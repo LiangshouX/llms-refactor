@@ -1,4 +1,4 @@
-package com.liangshou.llmsrefactor.codedata;
+package com.liangshou.llmsrefactor.codedata.repository;
 
 import com.liangshou.llmsrefactor.codedata.entity.CodeDataEntity;
 import org.springframework.data.domain.Page;

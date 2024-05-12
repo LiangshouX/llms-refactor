@@ -6,6 +6,24 @@ create database if not exists llm_refactor;
 -- 切换库
 use llm_refactor;
 
+create table if not exists code_compare
+(
+    id                  bigint  auto_increment  not null  comment '代码 id' primary key,
+    file_name           varchar(512)    not null    comment '代码文件的名字',
+    language_type       varchar(16)     not null    comment '代码的语言类型',
+    origin_code         text            null        comment '重构前的代码内容',
+    new_code_1          text            null        comment '第一次重构结果',
+    new_code_2          text            null        comment '第一次重构结果',
+    new_code_3          text            null        comment '第一次重构结果',
+    new_code_4          text            null        comment '第一次重构结果',
+    new_code_5          text            null        comment '第一次重构结果',
+    new_code_6          text            null        comment '第一次重构结果',
+    new_code_7          text            null        comment '第一次重构结果',
+    new_code_8          text            null        comment '第一次重构结果',
+    new_code_9          text            null        comment '第一次重构结果',
+    new_code_10         text            null        comment '第一次重构结果'
+);
+
 -- 实验代码表，存储重构前后的代码内容以及检测报告
 create table if not exists code_data
 (

@@ -1,13 +1,13 @@
-package java_programs.extra;
 
-public class MAXIMUM_WEIGHTED_SUBSET {
-    public static int maxSubsetWeight(int[] weights, int bound) {
+public class MaximumWeightedSubsetUtility {
+    public static int maxSubsetWeight(final int[] weights, final int bound) {
         if (weights.length == 0) {
             return 0;
         }
-        int[][] maxWeight = new int[weights.length][bound];
-        for (int w = 0; w <= bound; w++)
+        int[][] maxWeight = new int[weights.length][bound + 1];
+        for (int w = 0; w <= bound; w++) {
             maxWeight[0][w] = weights[0] <= w ? weights[0] : 0;
+        }
 
         for (int i = 1; i < weights.length; i++) {
             for (int w = 0; w <= bound; w++) {

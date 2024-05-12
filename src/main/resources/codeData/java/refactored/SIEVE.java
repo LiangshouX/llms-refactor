@@ -1,25 +1,44 @@
-
 package java_programs;
+
 import java.util.ArrayList;
+import java.util.List;
 
-public class SIEVE {
+public class Sieve {
 
-    public static boolean all(ArrayList<Boolean> arr) {
-        return arr.stream().allMatch(value -> value);
+    private Sieve() {
+        // private constructor to prevent instantiation
     }
 
-    public static boolean any(ArrayList<Boolean> arr) {
-        return arr.stream().anyMatch(value -> value);
+    public static boolean all(final List<Boolean> booleanList) {
+        for (final boolean value : booleanList) {
+            if (!value) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    public static ArrayList<Boolean> list_comp(int n, ArrayList<Integer> primes) {
-        return primes.stream().map(p -> n % p > 0).collect(Collectors.toCollection(ArrayList::new));
+    public static boolean any(final List<Boolean> booleanList) {
+        for (final boolean value : booleanList) {
+            if (value) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public static ArrayList<Integer> sieve(Integer max) {
-        ArrayList<Integer> primes = new ArrayList<Integer>();
+    public static List<Boolean> buildComprehension(final int n, final List<Integer> primes) {
+        final List<Boolean> builtComprehension = new ArrayList<>();
+        for (final Integer p : primes) {
+            builtComprehension.add(n % p > 0);
+        }
+        return builtComprehension;
+    }
+
+    public static List<Integer> sieve(final int max) {
+        final List<Integer> primes = new ArrayList<>();
         for (int n = 2; n < max + 1; n++) {
-            if (any(list_comp(n, primes))) {
+            if (any(buildComprehension(n, primes))) {
                 primes.add(n);
             }
         }

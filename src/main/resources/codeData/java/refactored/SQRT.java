@@ -1,10 +1,8 @@
-package java_programs;
-
-public class SQRT {
-    public static double sqrt(double x, double epsilon) {
-        double approx = x / 2d;
-        while (Math.abs(x-approx) > epsilon) {
-            approx = 0.5d * (approx + x / approx);
+public class SquareRoot {
+    public static double calculateSqrt(final double number, final double epsilon) {
+        double approx = number / 2d;
+        while (Math.abs(number - approx) > epsilon) {
+            approx = 0.5d * (approx + number / approx);
         }
         return approx;
     }

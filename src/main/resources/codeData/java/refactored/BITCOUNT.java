@@ -1,13 +1,11 @@
 
-package java_programs;
-
-public class BitCount {
-    public static int bitCount(int n) {
-        int count = 0;
-        while (n != 0) {
-            n = n ^ (n - 1);
-            count++;
+public class BitCountUtils {
+    public static int countBits(int number) {
+        int bitCount = 0;
+        while (number != 0) {
+            number = (number ^ (number - 1));
+            bitCount++;
         }
-        return count;
+        return bitCount;
     }
 }

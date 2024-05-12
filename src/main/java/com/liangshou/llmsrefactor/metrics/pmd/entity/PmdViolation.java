@@ -1,4 +1,4 @@
-package com.liangshou.llmsrefactor.pmd.entity;
+package com.liangshou.llmsrefactor.metrics.pmd.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -38,9 +38,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
  * @author X-L-S
  */
-public record PmdViolation (Integer beginLine,
-                            Integer endLine,
-                            String description,
+public record PmdViolation (String description,
                             String rule,
                             String ruleSet,
                             Integer priority) {

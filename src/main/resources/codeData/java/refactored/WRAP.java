@@ -1,27 +1,28 @@
+public class WrapUtil {
+    private static final Logger log = Logger.getLogger(WrapUtil.class.getName());
 
-package java_programs;
-import java.util.ArrayList;
-
-public class WRAP {
     public static void main(String[] args) {
-        System.out.println("abc".lastIndexOf("c",30));
+        log.fine("abc".lastIndexOf("c", 30));
     }
 
-    public static ArrayList<String> wrap(String text, int cols) {
-        ArrayList<String> lines = new ArrayList<String>();
+    public static List<String> wrap(String text, int cols) {
+        List<String> lines = new ArrayList<>();
 
-        String line;
-        while (text.length() > cols) {
-            int end = text.lastIndexOf(" ", cols); // off by one?
+        String remainingText = text;
+        while (remainingText.length() > cols) {
+            int end = remainingText.lastIndexOf(' ', cols); // off by one?
             if (end == -1) {
                 end = cols;
             }
-            line = text.substring(0,end);
-            text = text.substring(end).trim();
+            String line = remainingText.substring(0, end).trim();
+            remainingText = remainingText.substring(end).trim();
             lines.add(line);
         }
 
-        lines.add(text); // Add remaining text as the last line
+        if (!remainingText.isEmpty()) {
+            lines.add(remainingText);
+        }
+
         return lines;
     }
 }

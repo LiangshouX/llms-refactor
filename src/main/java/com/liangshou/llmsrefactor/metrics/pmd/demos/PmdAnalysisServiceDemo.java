@@ -1,4 +1,4 @@
-package com.liangshou.llmsrefactor.pmd.demos;
+package com.liangshou.llmsrefactor.metrics.pmd.demos;
 
 import net.sourceforge.pmd.PMDConfiguration;
 import net.sourceforge.pmd.PmdAnalysis;
@@ -8,8 +8,7 @@ import net.sourceforge.pmd.reporting.Report;
 
 import java.nio.file.Paths;
 
-import static com.liangshou.llmsrefactor.pmd.constant.PmdConfigConstant.CODE_ROOT;
-import static com.liangshou.llmsrefactor.pmd.constant.PmdConfigConstant.RULESET_JAVA_PATH;
+import static com.liangshou.llmsrefactor.metrics.pmd.constant.PmdConfigConstant.*;
 
 /**
  * @author X-L-S
@@ -32,7 +31,7 @@ public class PmdAnalysisServiceDemo {
             // optional: add more rulesets
             // pmd.addRuleSet(pmd.newRuleSetLoader().loadFromResource(RULESET_JAVA_PATH));
             // optional: add more files
-            pmd.files().addFile(Paths.get(CODE_ROOT, "SystemProxyConfig.java"));
+            pmd.files().addFile(Paths.get(JAVA_CODE_PATH, "BINARY_SEARCH.java"));
             // optional: add more renderers
             Renderer renderer = new JsonRenderer();
             // pmd.addRenderer(renderer);

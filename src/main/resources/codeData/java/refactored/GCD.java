@@ -1,13 +1,14 @@
+public class MathUtils {
 
-package java_programs;
+    private MathUtils() {
+        // private constructor to prevent instantiation
+    }
 
-public class GCD {
-
-    public static int gcd(int a, int b) {
-        if (b == 0) {
-            return a;
+    public static int greatestCommonDivisor(final int number1, final int number2) {
+        if (number2 == 0) {
+            return number1;
         } else {
-            return gcd(a % b, b);
+            return greatestCommonDivisor(number1 % number2, number2);
         }
     }
 }

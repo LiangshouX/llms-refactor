@@ -1,23 +1,24 @@
-
 package java_programs;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class Subsequences {
-    public static ArrayList<ArrayList<Integer>> subsequences(int a, int b, int k) {
-        if (k == 0) {
+    public static List<List<Integer>> subsequences(int start, int end, int length) {
+        if (length == 0) {
             return new ArrayList<>();
         }
 
-        ArrayList<ArrayList<Integer>> ret = new ArrayList<>();
-        for (int i = a; i < b + 1 - k; i++) {
-            ArrayList<ArrayList<Integer>> base = new ArrayList<>();
-            for (ArrayList<Integer> rest : subsequences(i + 1, b, k - 1)) {
+        List<List<Integer>> result = new ArrayList<>();
+        for (int i = start; i < end + 1 - length; i++) {
+            List<Integer> base = new ArrayList<>();
+            for (List<Integer> rest : subsequences(i + 1, end, length - 1)) {
                 rest.add(0, i);
-                base.add(rest);
+                base.add(new ArrayList<>(rest));
             }
-            ret.addAll(base);
+            result.addAll(base);
         }
 
-        return ret;
+        return result;
     }
 }

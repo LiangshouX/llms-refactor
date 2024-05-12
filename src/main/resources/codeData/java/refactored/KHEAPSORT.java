@@ -1,19 +1,14 @@
-
-package java_programs;
-import java.util.*;
-
-public class KHEAPSORT {
-
-    public static ArrayList<Integer> kheapsort(ArrayList<Integer> arr, int k) {
-        PriorityQueue<Integer> heap = new PriorityQueue<Integer>();
-        for (Integer v : arr.subList(0, k)) {
+public final class KHeapsort {
+    public static List<Integer> kheapsort(final List<Integer> arr, final int k) {
+        PriorityQueue<Integer> heap = new PriorityQueue<>();
+        for (final Integer v : arr.subList(0, k)) {
             heap.add(v);
         }
 
-        ArrayList<Integer> output = new ArrayList<Integer>();
-        for (Integer x : arr) {
+        List<Integer> output = new ArrayList<>();
+        for (final Integer x : arr) {
             heap.add(x);
-            Integer popped = heap.poll();
+            final Integer popped = heap.poll();
             output.add(popped);
         }
 

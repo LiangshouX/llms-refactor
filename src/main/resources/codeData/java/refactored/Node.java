@@ -1,12 +1,13 @@
-
 package java_programs;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class Node {
 
     private String value;
-    private ArrayList<Node> successors;
-    private ArrayList<Node> predecessors;
+    private List<Node> successors;
+    private List<Node> predecessors;
     private Node successor;
 
     public Node() {
@@ -28,12 +29,12 @@ public class Node {
         this.successor = successor;
     }
 
-    public Node(String value, ArrayList<Node> successors) {
+    public Node(String value, List<Node> successors) {
         this.value = value;
         this.successors = successors;
     }
 
-    public Node(String value, ArrayList<Node> predecessors, ArrayList<Node> successors) {
+    public Node(String value, List<Node> predecessors, List<Node> successors) {
         this.value = value;
         this.predecessors = predecessors;
         this.successors = successors;
@@ -47,11 +48,11 @@ public class Node {
         this.successor = successor;
     }
 
-    public void setSuccessors(ArrayList<Node> successors) {
+    public void setSuccessors(List<Node> successors) {
         this.successors = successors;
     }
 
-    public void setPredecessors(ArrayList<Node> predecessors) {
+    public void setPredecessors(List<Node> predecessors) {
         this.predecessors = predecessors;
     }
 
@@ -59,11 +60,11 @@ public class Node {
         return successor;
     }
 
-    public ArrayList<Node> getSuccessors() {
+    public List<Node> getSuccessors() {
         return successors;
     }
 
-    public ArrayList<Node> getPredecessors() {
+    public List<Node> getPredecessors() {
         return predecessors;
     }
 }

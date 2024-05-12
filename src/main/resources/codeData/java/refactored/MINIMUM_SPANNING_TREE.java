@@ -1,5 +1,4 @@
-
-package java_programs;
+package javaPrograms;
 
 import java.util.*;
 

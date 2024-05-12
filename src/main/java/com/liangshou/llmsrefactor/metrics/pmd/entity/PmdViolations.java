@@ -1,4 +1,4 @@
-package com.liangshou.llmsrefactor.pmd.entity;
+package com.liangshou.llmsrefactor.metrics.pmd.entity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

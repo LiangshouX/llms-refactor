@@ -1,10 +1,6 @@
-
-package java_programs;
-import java.util.ArrayList;
-
 public class MergeSort {
-    public static ArrayList<Integer> merge(ArrayList<Integer> left, ArrayList<Integer> right) {
-        ArrayList<Integer> result = new ArrayList<>();
+    public static List<Integer> merge(List<Integer> left, List<Integer> right) {
+        List<Integer> result = new ArrayList<>();
         int i = 0;
         int j = 0;
 
@@ -21,15 +17,15 @@ public class MergeSort {
         return result;
     }
 
-    public static ArrayList<Integer> mergeSort(ArrayList<Integer> arr) {
+    public static List<Integer> mergeSort(List<Integer> arr) {
         if (arr.size() <= 1) {
             return arr;
         } else {
             int middle = arr.size() / 2;
-            ArrayList<Integer> left = new ArrayList<>();
-            left.addAll(arr.subList(0,middle));
+            List<Integer> left = new ArrayList<>();
+            left.addAll(arr.subList(0, middle));
             left = mergeSort(left);
-            ArrayList<Integer> right = new ArrayList<>();
+            List<Integer> right = new ArrayList<>();
             right.addAll(arr.subList(middle, arr.size()));
             right = mergeSort(right);
 

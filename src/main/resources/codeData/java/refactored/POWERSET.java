@@ -1,27 +1,25 @@
+import java.util.*;
 
-package java_programs;
-import java.util.ArrayList;
-
-public class POWERSET {
-    public static ArrayList<ArrayList> powerset(ArrayList arr) {
+public class PowerSet {
+    public static List<List<Object>> powerset(final List<Object> arr) {
         if (!arr.isEmpty()) {
             Object first = arr.get(0);
             arr.remove(0);
-            ArrayList rest = arr;
-            ArrayList<ArrayList> rest_subsets = powerset(rest);
+            List<Object> rest = new ArrayList<>(arr);
+            List<List<Object>> rest_subsets = powerset(rest);
 
-            ArrayList<ArrayList> output = new ArrayList<ArrayList>(100);
-            ArrayList to_add = new ArrayList(100);
+            List<List<Object>> output = new ArrayList<>();
+            List<Object> to_add = new ArrayList<>();
             to_add.add(first);
-            for (ArrayList subset : rest_subsets) {
+            for (List<Object> subset : rest_subsets) {
                 to_add.addAll(subset);
             }
             output.add(to_add);
 
             return output;
         } else {
-            ArrayList empty_set = new ArrayList<ArrayList>();
-            empty_set.add(new ArrayList());
+            List<List<Object>> empty_set = new ArrayList<>();
+            empty_set.add(new ArrayList<>());
             return empty_set;
         }
     }
