@@ -1,34 +1,44 @@
 package java_programs.extra;
+import java.util.*;
+import java.io.*;
+import java.awt.Point;
+import static java.lang.Math.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+public class NestedParensUtility {
 
-public class NestedParens {
-    public static void main(String[] args) throws Exception {
-        Scanner in = new Scanner(System.in);
-        CAS: while(in.hasNext()) {
-            String parens = in.next();
-            int depth = 0;
-            for(int i=0; i < parens.length(); i++) {
-                if(parens.charAt(i) == '(') {
-                    depth++;
-                } else {
-                    depth--;
-                    if(depth < 0) {
-                        System.out.println("0");
-                        continue CAS;
+    private static final int ZERO = 0;
+
+    private NestedParensUtility() {
+        throw new IllegalStateException("Utility class");
+    }
+
+    public static void main(String[] args) {
+        try (final Scanner input = new Scanner(System.in)) {
+            while(input.hasNext()) {
+                final String parenthesesString = input.next();
+                int depth = ZERO;
+                for(int index = ZERO; index < parenthesesString.length(); index++) {
+                    if(parenthesesString.charAt(index) == '(') {
+                        depth++;
+                    } else {
+                        depth--;
+                        if(depth < ZERO) {
+                            logParenthesesDepth("0");
+                            continue;
+                        }
                     }
                 }
+                logParenthesesDepth(depth == ZERO ? "1" : "0");
             }
-            System.out.println(depth == 0 ? "1" : "0");
         }
     }
 
-    public static <T> List<T> list() { return new ArrayList<>(); }
-    public static <K,V> Map<K,V> map() { return new HashMap<>(); }
-    public static int i(String s) { return Integer.parseInt(s); }
-    public static long l(String s) { return Long.parseLong(s); }
+    private static void logParenthesesDepth(String message) {
+        System.out.println(message);
+    }
+
+    public static <T> List<T> createList() { return new ArrayList<>(); }
+    public static <K,V> Map<K,V> createMap() { return new HashMap<>(); }
+    public static int convertStringToInt(final String inputString) { return Integer.parseInt(inputString); }
+    public static long convertStringToLong(final String inputString) { return Long.parseLong(inputString); }
 }

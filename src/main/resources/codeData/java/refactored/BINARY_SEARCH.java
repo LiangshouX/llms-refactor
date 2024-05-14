@@ -1,23 +1,27 @@
 package java_programs.extra;
 
-import java.util.*;
+public final class BinarySearch {
+    private BinarySearch() {
+        // This utility class is not publicly instantiable.
+    }
 
-public class BinarySearch {
-    public static int findFirstInSorted(int[] arr, int x) {
-        int lo = 0;
-        int hi = arr.length;
+    public static int findFirstInSorted(final int[] array, final int target) {
+        int lowerBound = 0;
+        int upperBound = array.length;
+        int result = -1;
 
-        while (lo < hi) {
-            int mid = (lo + hi) / 2;
+        while (lowerBound <= upperBound) {
+            final int mid = (lowerBound + upperBound) / 2;
 
-            if (x == arr[mid] && (mid == 0 || x != arr[mid - 1])) {
-                return mid;
-            } else if (x < arr[mid]) {
-                hi = mid;
+            if (target == array[mid] && (mid == 0 || target != array[mid - 1])) {
+                result = mid;
+                break;
+            } else if (target <= array[mid]) {
+                upperBound = mid;
             } else {
-                lo = mid + 1;
+                lowerBound = mid + 1;
             }
         }
-        return -1;
+        return result;
     }
 }

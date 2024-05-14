@@ -1,0 +1,72 @@
+{
+  "title": "Performance Compare",
+  "description": "针对不同 temperature 性能的对比",
+  "datas": [
+    {
+      "data_title": "origin_data",
+      "TotalProblems": 709,
+      "Design": 60,
+      "Multithreading": 10,
+      "Documentation": 1,
+      "Best Practices": 110,
+      "Code Style": 501,
+      "Performance": 15,
+      "Error Prone": 12
+    },
+    {
+      "data_title": "temp_0.1",
+      "TotalProblems": 265,
+      "Design": 48,
+      "Multithreading": 7,
+      "Documentation": 0,
+      "Best Practices": 10,
+      "Code Style": 180,
+      "Performance": 11,
+      "Error Prone": 9
+    },
+    {
+      "data_title": "temp_0.5",
+      "TotalProblems": 262,
+      "Design": 45,
+      "Multithreading": 7,
+      "Documentation": 0,
+      "Best Practices": 10,
+      "Code Style": 179,
+      "Performance": 11,
+      "Error Prone": 10
+    },
+    {
+      "data_title": "temp_0.9",
+      "TotalProblems": 236,
+      "Design": 43,
+      "Multithreading": 5,
+      "Documentation": 1,
+      "Best Practices": 9,
+      "Code Style": 161,
+      "Performance": 9,
+      "Error Prone": 8
+    },
+    {
+      "data_title": "temp_1.2",
+      "TotalProblems": 263,
+      "Design": 48,
+      "Multithreading": 5,
+      "Documentation": 0,
+      "Best Practices": 16,
+      "Code Style": 173,
+      "Performance": 11,
+      "Error Prone": 10
+    },
+    {
+      "data_title": "temp_1.5",
+      "TotalProblems": 225,
+      "Design": 41,
+      "Multithreading": 3,
+      "Documentation": 0,
+      "Best Practices": 13,
+      "Code Style": 149,
+      "Performance": 12,
+      "Error Prone": 7
+    }
+  ]
+}

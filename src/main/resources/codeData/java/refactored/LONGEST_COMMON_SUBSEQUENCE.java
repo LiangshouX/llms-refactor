@@ -1,14 +1,25 @@
+package java_programs;
 
-public class LongestCommonSubsequenceUtil {
-    public static String findLongestCommonSubsequence(String firstString, String secondString) {
-        if (firstString.isEmpty() || secondString.isEmpty()) {
-            return "";
-        } else if (firstString.charAt(0) == secondString.charAt(0)) {
-            return firstString.charAt(0) + findLongestCommonSubsequence(firstString.substring(1), secondString);
-        } else {
-            String first = findLongestCommonSubsequence(firstString, secondString.substring(1));
-            String second = findLongestCommonSubsequence(firstString.substring(1), secondString);
-            return first.length() >= second.length() ? first : second;
+/**
+ *
+ * @author derricklin
+ */
+public final class LongestCommonSubsequence {
+    private LongestCommonSubsequence() {
+        //this private constructor is added to hide the implicit public one.
+    }
+
+    public static String getLongestCommonSubsequence(final String stringA, final String stringB) {
+        String result = "";
+        if (!stringA.isEmpty() && !stringB.isEmpty()) {
+            if (stringA.charAt(0) == stringB.charAt(0)) {
+                result = stringA.charAt(0) + getLongestCommonSubsequence(stringA.substring(1), stringB);
+            } else {
+                final String firstSubsequence = getLongestCommonSubsequence(stringA, stringB.substring(1));
+                final String secondSubsequence = getLongestCommonSubsequence(stringA.substring(1), stringB);
+                final String result = firstSubsequence.length() >= secondSubsequence.length() ? firstSubsequence : secondSubsequence;
+            }
         }
+        return result;
     }
 }

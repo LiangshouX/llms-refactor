@@ -9,6 +9,7 @@ import com.liangshou.llmsrefactor.codedata.repository.CodeDataRepository;
 import com.liangshou.llmsrefactor.document.model.Documents;
 import com.liangshou.llmsrefactor.knowlefgebase.KnowledgeBaseArticleRepository;
 import com.liangshou.llmsrefactor.knowlefgebase.entity.KnowledgeBaseArticle;
+import com.liangshou.llmsrefactor.llms.openai.entity.CodeCompareResult;
 import com.liangshou.llmsrefactor.metrics.pmd.entity.PmdViolation;
 import com.liangshou.llmsrefactor.metrics.pmd.entity.PmdViolations;
 import org.jetbrains.annotations.Nullable;
@@ -71,9 +72,9 @@ public class GptCompletionService {
 
     private final RateLimiter rateLimiter = RateLimiter.create(1);
 
-    private final  int STEP = 1;
+    private final  int STEP = 5;
 
-    @Value("classpath:/prompts/refactor-code-level-3.st")
+    @Value("classpath:/prompts/refactor-code-level-2.st")
     private Resource promptCodeRefactor;
 
     @Autowired
@@ -121,11 +122,11 @@ public class GptCompletionService {
                 || Objects.equals(promptCodeRefactor.getFilename(), "refactor-code-level-3.st")
                 || Objects.equals(promptCodeRefactor.getFilename(), "refactor-code-level-4.st")) {
 
-            output = multiCompletion(id);
+            output = multiRefactorCompletion(id);
         }
 
         else {
-            logger.error("prompt resource {} is not usable", promptCodeRefactor.getFilename());
+            logger.error("prompt resource {} is not usable for Refactoring", promptCodeRefactor.getFilename());
             throw new RuntimeException("Your code is joking to you.....");
         }
 
@@ -154,24 +155,29 @@ public class GptCompletionService {
     }
 
     /**
-     *  多轮对话
+     *  多轮重构对话
      */
-    public String multiCompletion (Long id) {
+    public String multiRefactorCompletion(Long id) {
         var template = new PromptTemplate(promptCodeRefactor);
 
         CodeDataEntity codeData = codeDataRepository.findById(id).get();
 
-        List<Message> messages = new ArrayList<>();
+
 
         if (Objects.equals(promptCodeRefactor.getFilename(), "refactor-code-level-2.st")) {
             String originReport = codeData.getOriginReport();
             String stageCode = codeData.getOriginCode();
 
             List<String> originReportList = splitReportIntoSubJson(originReport, STEP);
+            List<Message> messages = new ArrayList<>();
 
             for (String subReport : originReportList) {
-
                 var prompt = createPrompt(template, stageCode, subReport);
+                // messages.add(new SystemMessage(prompt.getContents()));
+
+                // if (messages.size() >= originReportList.size() || messages.size() >= 3) {
+                //   messages.remove(0);
+                // }
 
                 stageCode = removeCodeFences(streamCompletion(prompt));
             }
@@ -220,6 +226,54 @@ public class GptCompletionService {
         }
 
     }
+
+    /**
+     * 用于对比重构前后代码功能是否一致的对话
+     */
+    public void compareTwoCodeCompletion (Long id) {
+        if (!Objects.equals(promptCodeRefactor.getFilename(), "refactor-code-level-5.st")) {
+            logger.warn("for compareTwoCodeCompletion, you should use prompt level-5");
+            return ;
+        }
+        CodeDataEntity codeData = codeDataRepository.findById(id).get();
+
+        String originCode = codeData.getOriginCode();
+        String newCode = codeData.getNewCode();
+
+        String firstPromptString = """
+                请阅读并理解这段代码，如果你已经理解并记住它，请回复“OK”：
+                %s
+                """.formatted(originCode);
+        String secondPromptString = createPrompt(new PromptTemplate(promptCodeRefactor),
+                newCode, null).getContents();
+
+        List<Message> messages = new ArrayList<>();
+
+        messages.add(new SystemMessage(firstPromptString));
+
+        String firstResponse = streamCompletion(new Prompt(messages));
+//        System.out.println("AI Response1 :\n" + firstResponse);
+
+        messages.add(new SystemMessage(secondPromptString));
+        String secondResponse = streamCompletion(new Prompt(messages));
+        secondResponse = secondResponse.replaceFirst("```json", "")
+                                        .replaceFirst("```", "");
+//        System.out.println("AI Response2 :\n" + secondResponse);
+
+        try {
+            CodeCompareResult codeCompare = objectMapper.readValue(secondResponse, CodeCompareResult.class);
+            codeData.setIsSame(codeCompare.maintain().equals("yes"));
+            codeData.setDescription(codeCompare.description());
+            codeData.setUpdateAt(Instant.now());
+            codeDataRepository.save(codeData);
+
+            logger.info("Compare Complete with code id {}", id);
+        } catch (Exception e) {
+            logger.error("Failed to Convert AI Response to CondeCompareEntity, retry please");
+            System.out.println(secondResponse);
+        }
+    }
+
 
     /**
      * 针对 流式接口调用方法
@@ -300,6 +354,10 @@ public class GptCompletionService {
         return outputBuilder.toString();
     }
 
+    /**
+     * 先利用 LEVEL-1 的重构指令对同一段代码进行重复实验，比较重构的稳定性
+     * @param id 代码的数据库 id
+     */
     public void codeRefactorCompare (Long id) {
         if (!Objects.equals(promptCodeRefactor.getFilename(), "refactor-code-level-1.st")){
             logger.error("Code Refactor Only User refactor-code-level-1.st");
@@ -475,6 +533,11 @@ public class GptCompletionService {
                 return template.create(Map.of(
                         "code", codeData,
                         "refKnowledge", refKnowledge
+                ));
+            }
+            case "refactor-code-level-5.st" -> {
+                return template.create(Map.of(
+                        "newCode", codeData
                 ));
             }
             default -> {

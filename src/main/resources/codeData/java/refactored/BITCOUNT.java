@@ -1,11 +1,22 @@
+package java_programs;
 
-public class BitCountUtils {
+/**
+ *
+ * @author derricklin
+ */
+public final class BitCount {
+    private BitCount() {
+        // This utility class has a non-private constructor.
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
+
     public static int countBits(int number) {
-        int bitCount = 0;
-        while (number != 0) {
-            number = (number ^ (number - 1));
-            bitCount++;
+        int count = 0;
+        int value = number;
+        while (value != 0) {
+            value = (value ^ (value - 1));
+            count++;
         }
-        return bitCount;
+        return count;
     }
 }

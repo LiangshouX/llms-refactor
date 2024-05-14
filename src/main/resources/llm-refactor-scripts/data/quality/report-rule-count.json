@@ -1,0 +1,141 @@
+{
+  "Description": "对检测报告中报错的规则进行统计",
+  "Count": [
+    {
+      "Strategy": "ORIGIN",
+      "RuleSet":[
+          {
+            "Code Style": {
+              "ClassNamingConventions": 28,
+              "LocalVariableNamingConventions": 32,
+              "MethodArgumentCouldBeFinal": 109,
+              "ShortClassName": 7,
+              "AtLeastOneConstructor": 1,
+              "LongVariable": 1,
+              "ConfusingTernary": 4,
+              "FormalParameterNamingConventions": 8,
+              "UnnecessarySemicolon": 1,
+              "ShortMethodName": 2,
+              "UselessParentheses": 1,
+              "LocalVariableCouldBeFinal": 129,
+              "UnnecessaryCast": 1,
+              "OnlyOneReturn": 39,
+              "MethodNamingConventions": 25,
+              "ControlStatementBraces": 6,
+              "CommentDefaultAccessModifier": 3,
+              "ShortVariable": 49,
+              "UseDiamondOperator": 53,
+              "UseUnderscoresInNumericLiterals": 2
+            },
+            "Total":501
+        }
+      ]
+
+    },
+    {
+      "Strategy": "LEVEL-1",
+      "RuleSet":[
+          {
+              "Code Style": {
+                "LocalVariableNamingConventions": 6,
+                "MethodArgumentCouldBeFinal": 108,
+                "ShortClassName": 4,
+                "AtLeastOneConstructor": 1,
+                "LongVariable": 1,
+                "ConfusingTernary": 3,
+                "FormalParameterNamingConventions": 2,
+                "UnnecessarySemicolon": 1,
+                "UselessParentheses": 1,
+                "LocalVariableCouldBeFinal": 125,
+                "OnlyOneReturn": 41,
+                "LinguisticNaming": 1,
+                "CommentDefaultAccessModifier": 1,
+                "ShortVariable": 27,
+                "UseDiamondOperator": 11,
+                "UseUnderscoresInNumericLiterals": 2,
+                "UnnecessaryBoxing": 2
+              },
+            "Total":337
+          }
+      ]
+    },
+    {
+      "Strategy": "LEVEL-2",
+      "RuleSet":[
+          {
+              "Code Style": {
+                "LocalVariableCouldBeFinal": 65,
+                "MethodArgumentCouldBeFinal": 20,
+                "OnlyOneReturn": 31,
+                "LongVariable": 1,
+                "ConfusingTernary": 1,
+                "EmptyControlStatement": 1,
+                "FieldNamingConventions": 1,
+                "LinguisticNaming": 1,
+                "ShortVariable": 3,
+                "NoPackage": 25
+              },
+            "Total":149
+          }
+      ]
+    },
+    {
+      "Strategy": "LEVEL-3",
+      "RuleSet":[
+          {
+              "Code Style": {
+                "LocalVariableNamingConventions": 7,
+                "MethodArgumentCouldBeFinal": 47,
+                "ShortClassName": 3,
+                "AtLeastOneConstructor": 1,
+                "LongVariable": 1,
+                "ConfusingTernary": 2,
+                "FormalParameterNamingConventions": 3,
+                "UnnecessarySemicolon": 1,
+                "ShortMethodName": 2,
+                "UselessParentheses": 1,
+                "LocalVariableCouldBeFinal": 93,
+                "OnlyOneReturn": 38,
+                "ControlStatementBraces": 1,
+                "FieldNamingConventions": 2,
+                "PackageCase": 1,
+                "LinguisticNaming": 1,
+                "CommentDefaultAccessModifier": 2,
+                "ShortVariable": 23,
+                "UseUnderscoresInNumericLiterals": 2,
+                "NoPackage": 35
+              },
+            "Total":266
+          }
+      ]
+    },
+
+    {
+      "Strategy": "LEVEL-4",
+      "RuleSet":[
+          {
+              "Code Style": {
+                  "ClassNamingConventions": 7,
+                  "LocalVariableNamingConventions": 4,
+                  "MethodArgumentCouldBeFinal": 95,
+                  "ShortClassName": 4,
+                  "AtLeastOneConstructor": 1,
+                  "LongVariable": 2,
+                  "ConfusingTernary": 2,
+                  "UselessParentheses": 1,
+                  "LocalVariableCouldBeFinal": 117,
+                  "OnlyOneReturn": 32,
+                  "ControlStatementBraces": 5,
+                  "MethodNamingConventions": 3,
+                  "CommentDefaultAccessModifier": 4,
+                  "ShortVariable": 30,
+                  "UseDiamondOperator": 10,
+                  "UseUnderscoresInNumericLiterals": 1,
+                  "NoPackage": 14
+              },
+            "Total":332
+          }
+      ]
+    }
+  ]
+}

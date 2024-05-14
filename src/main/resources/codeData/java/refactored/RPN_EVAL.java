@@ -1,22 +1,40 @@
-public class RpnEvaluator {
-    public static Double evaluateRpn(final ArrayList<Object> tokens) {
-        final Map<String, BinaryOperator<Double>> operators = new HashMap<>();
-        operators.put("+", (a, b) -> a + b);
-        operators.put("-", (a, b) -> a - b);
-        operators.put("*", (a, b) -> a * b);
-        operators.put("/", (a, b) -> a / b);
+package java_programs;
 
-        final Stack<Double> stack = new Stack<>();
+import java.util.List;
+import java.util.Map;
+import java.util.Deque;
+import java.util.ArrayDeque;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.BinaryOperator;
 
-        for (final Object token : tokens) {
+/**
+ * Utility class for RPN Evaluation.
+ * @author derricklin
+ */
+public final class RpnEval {
+
+    private RpnEval() {
+        // private constructor to hide the implicit public one
+    }
+
+    public static Double evaluateRpn(List<Object> tokens) {
+        final Map<String, BinaryOperator<Double>> operatorToFunctionMap = new ConcurrentHashMap<>();
+        operatorToFunctionMap.put("+", Double::sum);
+        operatorToFunctionMap.put("-", (firstOperand, secondOperand) -> firstOperand - secondOperand);
+        operatorToFunctionMap.put("*", (firstOperand, secondOperand) -> firstOperand * secondOperand);
+        operatorToFunctionMap.put("/", (firstOperand, secondOperand) -> firstOperand / secondOperand);
+
+        final Deque<Double> stack = new ArrayDeque<>();
+
+        for (Object token : tokens) {
             if (token instanceof Double) {
                 stack.push((Double) token);
             } else {
-                final String operator = (String) token;
-                final Double operand1 = stack.pop();
-                final Double operand2 = stack.pop();
-                final BinaryOperator<Double> binaryOperator = operators.get(operator);
-                final Double result = binaryOperator.apply(operand2, operand1);
+                String operator = (String) token;
+                final Double firstOperand = stack.pop();
+                final Double secondOperand = stack.pop();
+                final BinaryOperator<Double> binaryOperator = operatorToFunctionMap.get(operator);
+                Double result = binaryOperator.apply(firstOperand, secondOperand);
                 stack.push(result);
             }
         }

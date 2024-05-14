@@ -43,6 +43,9 @@ create table if not exists code_data
     update_time         datetime default CURRENT_TIMESTAMP not null comment '更新时间'
 );
 
+ALTER TABLE code_data
+    ADD COLUMN description text comment '重构前后是否一致的描述' AFTER is_same;
+
 -- 仅引入检测报告的实验代码表，存储重构前后的代码内容以及检测报告
 create table if not exists code_data_level2
 (
@@ -61,6 +64,10 @@ create table if not exists code_data_level2
     create_time         datetime default CURRENT_TIMESTAMP not null comment '创建时间',
     update_time         datetime default CURRENT_TIMESTAMP not null comment '更新时间'
 );
+
+
+ALTER TABLE code_data_level2
+    ADD COLUMN description text comment '重构前后是否一致的描述' AFTER is_same;
 
 -- 引入检测报告和参考信息 的实验代码表，存储重构前后的代码内容以及检测报告
 create table if not exists code_data_level3
@@ -81,6 +88,10 @@ create table if not exists code_data_level3
     update_time         datetime default CURRENT_TIMESTAMP not null comment '更新时间'
 );
 
+
+ALTER TABLE code_data_level3
+    ADD COLUMN description text comment '重构前后是否一致的描述' AFTER is_same;
+
 -- 引入检测报告、参考信息和生成信息的实验代码表，存储重构前后的代码内容以及检测报告
 create table if not exists code_data_level4
 (
@@ -99,6 +110,10 @@ create table if not exists code_data_level4
     create_time         datetime default CURRENT_TIMESTAMP not null comment '创建时间',
     update_time         datetime default CURRENT_TIMESTAMP not null comment '更新时间'
 );
+
+
+ALTER TABLE code_data_level4
+    ADD COLUMN description text comment '重构前后是否一致的描述' AFTER is_same;
 
 -- 外部知识表
 create table if not exists article

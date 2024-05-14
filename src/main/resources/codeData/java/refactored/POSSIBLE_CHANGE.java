@@ -1,14 +1,29 @@
-public class CoinChange {
-    public static int coinChangePossibilities(final int[] coins, final int total) {
-        if (total == 0) {
-            return 1;
-        }
-        if (total < 0) {
-            return 0;
-        }
+package java_programs;
 
-        int firstCoin = coins[0];
-        int[] remainingCoins = Arrays.copyOfRange(coins, 1, coins.length);
-        return coinChangePossibilities(coins, total - firstCoin) + coinChangePossibilities(remainingCoins, total);
+import java.util.Arrays;
+
+/**
+ * Utility class for calculating the possible change.
+ *
+ * @author derricklin
+ */
+public final class PossibleChange {
+
+    private PossibleChange() {
+        // Prevent instantiation
+    }
+
+    public static int calculatePossibleChange(final int[] coins, final int total) {
+        int returnVal = 0; // Single return value
+        if (total == 0) {
+            returnVal = 1;
+        } else if (total < 0) {
+            returnVal = 0;
+        } else {
+            final int first = coins[0];
+            final int[] rest = Arrays.copyOfRange(coins, 1, coins.length);
+            returnVal = calculatePossibleChange(coins, total - first) + calculatePossibleChange(rest, total);
+        }
+        return returnVal;
     }
 }

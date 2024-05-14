@@ -11,8 +11,7 @@ import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 
-import static com.liangshou.llmsrefactor.llms.refactorengin.rabbitmq.MqConstant.CODE_COMPARE;
-import static com.liangshou.llmsrefactor.llms.refactorengin.rabbitmq.MqConstant.CODE_DATA;
+import static com.liangshou.llmsrefactor.llms.refactorengin.rabbitmq.MqConstant.*;
 
 /**
  * @author X-L-S
@@ -33,11 +32,10 @@ public class MyMessageConsumer {
         String dataType = message.split(":")[0];
         long codeId = Long.parseLong(message.split(":")[1]);
         try {
-            if (dataType.equals(CODE_DATA)){
-                gptCompletionService.refactorCompletion(codeId);
-            }
-            else if (dataType.equals(CODE_COMPARE)){
-                gptCompletionService.codeRefactorCompare(codeId);
+            switch (dataType) {
+                case CODE_DATA -> gptCompletionService.refactorCompletion(codeId);
+                case CODE_COMPARE -> gptCompletionService.codeRefactorCompare(codeId);
+                case TWO_CODE_COMPARE -> gptCompletionService.compareTwoCodeCompletion(codeId);
             }
             channel.basicAck(deliveryTag, false);
             logger.info("Consumed message = {}", message);

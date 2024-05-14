@@ -1,29 +1,43 @@
-public class Hanoi {
-    public static List<Pair<Integer, Integer>> hanoi(final int height, final int start, final int end) {
-        List<Pair<Integer, Integer>> steps = new ArrayList<>();
+package java_programs;
+import java.util.*;
+
+public final class HANOI {
+    private HANOI() {}
+
+    public static List<HanoiPair<Integer,Integer>> hanoi(final int height, final int start, final int end) {
+        final List<HanoiPair<Integer,Integer>> steps = new ArrayList<>();
 
         if (height > 0) {
-            PriorityQueue<Integer> crapSet = new PriorityQueue<>();
-            crapSet.add(1);
-            crapSet.add(2);
-            crapSet.add(3);
-            crapSet.remove(start);
-            crapSet.remove(end);
-            int helper = crapSet.poll();
-            steps.addAll(hanoi(height - 1, start, helper));
-            steps.add(new Pair<>(start, helper));
-            steps.addAll(hanoi(height - 1, helper, end));
+            final Queue<Integer> stepsSet = new PriorityQueue<>();
+            stepsSet.add(1);
+            stepsSet.add(2);
+            stepsSet.add(3);
+            stepsSet.remove(start);
+            stepsSet.remove(end);
+            final int helper = stepsSet.poll();
+            steps.addAll(hanoi(height-1, start, helper));
+            steps.add(new HanoiPair<>(start, end));
+            steps.addAll(hanoi(height-1, helper, end));
         }
 
         return steps;
     }
 
-    public static class Pair<F, S> {
-        private final F first;
-        private final S second;
 
-        public Pair(F first, S second) {
+    public static class HanoiPair<F, S> {
+        private F first;
+        private S second;
+
+        public HanoiPair(final F first, final S second) {
             this.first = first;
+            this.second = second;
+        }
+
+        public void setFirst(final F first) {
+            this.first = first;
+        }
+
+        public void setSecond(final S second) {
             this.second = second;
         }
 

@@ -1,0 +1,6 @@
+
+
+Model, Total PCounts, Reduction Ratio, Consistency Ratio
+GPT-3.5-Turbo, 225, 68.31%, 94%
+GPT-4-Turbo, 152 , 78.56%, 94%
+GPT-4, 78 , 89.01%,  83.33%

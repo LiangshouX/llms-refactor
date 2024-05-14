@@ -1,31 +1,45 @@
+package java_programs;
+
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
-public class ShuntingYard {
+/**
+ * Utility class for Shunting Yard algorithm.
+ *
+ * @author derricklin
+ */
+public final class ShuntingYard {
+
+    private ShuntingYard() {
+        // Restrict instantiation
+    }
+
     public static List<Integer> shuntingYard(final List<Object> tokens) {
-        Map<String, Integer> precedence = new HashMap<>();
-        precedence.put("+", 1);
-        precedence.put("-", 1);
-        precedence.put("*", 2);
-        precedence.put("/", 2);
+        final Map<String, Integer> precedence = new ConcurrentHashMap<>();
+        precedence.put("+",1);
+        precedence.put("-",1);
+        precedence.put("*",2);
+        precedence.put("/",2);
 
-        List<Integer> rpntokens = new ArrayList<>(100);
-        Deque<String> opstack = new ArrayDeque<>();
+        final List<Integer> rpnTokens = new ArrayList<>(100);
+        final Deque<String> opStack = new ArrayDeque<>();
 
-        for (final Object token : tokens) {
+        for (final Object token: tokens) {
             if (token instanceof Integer) {
-                rpntokens.add((Integer) token);
+                rpnTokens.add((Integer) token);
             } else {
-                String operator = (String) token;
-                while (!opstack.isEmpty() && precedence.get(operator) <= precedence.get(opstack.peekLast())) {
-                    rpntokens.add(Integer.parseInt(opstack.pop()));
+                final String operator = (String) token;
+                while (!opStack.isEmpty() && precedence.get(operator) <= precedence.get(opStack.getLast())) {
+                    rpnTokens.add(Integer.valueOf(opStack.pop()));
                 }
             }
         }
 
-        while (!opstack.isEmpty()) {
-            rpntokens.add(Integer.parseInt(opstack.pop()));
+        while (!opStack.isEmpty()) {
+            rpnTokens.add(Integer.valueOf(opStack.pop()));
         }
 
-        return rpntokens;
+        return rpnTokens;
     }
+
 }

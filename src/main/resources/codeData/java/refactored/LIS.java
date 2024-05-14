@@ -1,27 +1,45 @@
-public class LongestIncreasingSubsequence {
-    public static int findLengthOfLIS(final int[] nums) {
-        final Map<Integer, Integer> ends = new HashMap<>(100);
-        int longestLength = 0;
+package java_programs;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ *
+ * @author derricklin
+ */
+public final class LongestIncreasingSubsequence {
+    private LongestIncreasingSubsequence() {
+        // Prevent instantiation
+    }
+
+    public static int longestIncreasingSubsequence(final int... arr) {
+        final Map<Integer,Integer> sequenceEnds = new ConcurrentHashMap<>(100);
+        int longest = 0;
+
+        List<Integer> prefixLengths = new ArrayList<>(100);
         int index = 0;
-        for (final int num : nums) {
+        for (final int value : arr) {
 
-            final List<Integer> prefixLengths = new ArrayList<>(100);
-            for (int j = 1; j < longestLength + 1; j++) {
-                if (nums[ends.get(j)] < num) {
+            prefixLengths.clear();
+            for (int j=1; j < longest+1; j++) {
+                if (arr[sequenceEnds.get(j)] < value) {
                     prefixLengths.add(j);
                 }
             }
 
-            final int length = !prefixLengths.isEmpty() ? Collections.max(prefixLengths) : 0;
+            final int length = prefixLengths.isEmpty() ? 0 : Collections.max(prefixLengths);
 
-            if (length == longestLength || num < nums[ends.get(length + 1)]) {
-                ends.put(length + 1, index);
-                longestLength = length + 1;
+            if (length == longest) {
+                sequenceEnds.put(length+1, index);
+                longest = length + 1;
+            } else if (value < arr[sequenceEnds.get(length+1)]) {
+                sequenceEnds.put(length+1, index);
+                longest = length + 1;
             }
 
             index++;
         }
-        return longestLength;
+        return longest;
     }
 }

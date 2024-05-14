@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLException;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import static com.liangshou.llmsrefactor.metrics.pmd.constant.PmdConfigConstant.*;
 
@@ -84,6 +87,29 @@ public class PmdAnalysisController {
     public ResultAnalysisEntity resultAnalysis (@RequestParam(defaultValue = ORIGIN) String analysisType) {
         boolean isOrigin = analysisType.equals(ORIGIN);
         return pmdAnalysisService.resultAnalysisAll(isOrigin);
+    }
+
+    @GetMapping("/analysis/ruleset_count")
+    public Map<String, Map<String, Integer>> analyzeRuleSetCount (@RequestParam(defaultValue = "Code Style") String ruleSetName,
+                                                     @RequestParam(defaultValue = "origin") String reportType) {
+        List<String> reportList = new ArrayList<>();
+        Iterable<CodeDataEntity> codeDataEntityList = codeDataRepository.findAll();
+
+        for (CodeDataEntity codeData: codeDataEntityList) {
+            if (reportType.equals("origin")) {
+                reportList.add(codeData.getOriginReport());
+            }
+            else if (reportType.equals("new")) {
+                reportList.add(codeData.getNewReport());
+            }
+            else {
+                throw new RuntimeException("Parameter reportType must be 'origin' or 'new', retry please");
+            }
+        }
+
+        Map<String, Integer> rulesetCount = pmdAnalysisService.analyzeRuleCount(reportList, ruleSetName);
+
+        return Map.of(ruleSetName, rulesetCount);
     }
 
     @GetMapping("/analysis/tes")

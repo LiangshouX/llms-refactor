@@ -1,22 +1,37 @@
-public class BinarySearch {
+package java_programs;
 
-    public static int findFirstInSortedArray(final int[] array, final int target) {
-        int left = 0;
-        int right = array.length;
+import java.util.*;
 
-        while (left < right) {
-            int mid = left + (right - left) / 2;
+/**
+ * Class to find the first occurrence in a sorted array
+ *
+ * @author derricklin
+ */
+public final class FindFirstInSorted {
 
-            if (target == array[mid] && (mid == 0 || target != array[mid-1])) {
-                return mid;
-            } else if (target <= array[mid]) {
-                right = mid;
+    private FindFirstInSorted() {
+        // Utility class
+    }
+
+    public static int findFirstInSorted(final int[] array, final int searchElement) {
+        int lowIndex = 0;
+        int highIndex = array.length;
+        int result = -1;
+
+        while (lowIndex <= highIndex) {
+            final int middleIndex = (lowIndex + highIndex) / 2;
+
+            if (searchElement == array[middleIndex] && (middleIndex == 0 || searchElement != array[middleIndex - 1])) {
+                result = middleIndex;
+                break;
+            } else if (searchElement <= array[middleIndex]) {
+                highIndex = middleIndex;
             } else {
-                left = mid + 1;
+                lowIndex = middleIndex + 1;
             }
         }
 
-        return -1;
+        return result;
     }
 
 }

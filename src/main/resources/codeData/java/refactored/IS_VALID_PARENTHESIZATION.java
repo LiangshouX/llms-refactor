@@ -1,18 +1,39 @@
+package java_programs;
 
-public class ParenthesisValidator {
-    public static boolean isValidParenthesization(final String parentheses) {
+/**
+ * Utility class for checking the validity of a parenthesization.
+ *
+ */
+public final class IsValidParenthesization {
+
+    private IsValidParenthesization() {
+        // This is a utility class. It is not supposed to be instantiated.
+    }
+
+    /**
+     * Checks whether the given string represents a valid parenthesization.
+     *
+     * @param parens the string to check
+     * @return {@code true} if the string represents a valid parenthesization,
+     *         {@code false} otherwise
+     */
+    public static boolean isValidParenthesization(final String parens) {
         int depth = 0;
-        for (int i = 0; i < parentheses.length(); i++) {
-            char paren = parentheses.charAt(i);
+        boolean isValid = true;
+
+        for (int i = 0; i < parens.length(); i++) {
+            final char paren = parens.charAt(i);
             if (paren == '(') {
                 depth++;
             } else {
                 depth--;
                 if (depth < 0) {
-                    return false;
+                    isValid = false;
+                    break;
                 }
             }
         }
-        return depth == 0;
+
+        return isValid;
     }
 }

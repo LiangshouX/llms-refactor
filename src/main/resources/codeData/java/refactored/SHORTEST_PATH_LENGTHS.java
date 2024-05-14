@@ -1,13 +1,23 @@
-public class ShortestPathLengthsUtil {
+package java_programs;
 
-    private static final int INF = 99999;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
-    public static Map<List<Integer>, Integer> calculateShortestPathLengths(int numNodes, Map<List<Integer>, Integer> lengthByEdge) {
-        Map<List<Integer>, Integer> lengthByPath = new HashMap<>();
+public final class ShortestPathLengths {
+
+    private static final int INF = 99_999;
+
+    private ShortestPathLengths() {
+    }
+
+    public static Map<List<Integer>, Integer> calculateShortestPathLengths(final int numNodes,
+                                                                           final Map<List<Integer>, Integer> lengthByEdge) {
+        final Map<List<Integer>, Integer> lengthByPath = new ConcurrentHashMap<>();
+        List<Integer> edge;
 
         for (int i = 0; i < numNodes; i++) {
-            for (int j = 0; j < numNodes; j++) {
-                List<Integer> edge = new ArrayList<>(Arrays.asList(i, j));
+            for (int j =0; j < numNodes; j++) {
+                edge = Arrays.asList(i,j);
                 if (i == j) {
                     lengthByPath.put(edge, 0);
                 } else if (lengthByEdge.containsKey(edge)) {
@@ -18,25 +28,33 @@ public class ShortestPathLengthsUtil {
             }
         }
 
+        List<Integer> firstPath, secondPath, thirdPath;
+        int updateLength;
+
         for (int k = 0; k < numNodes; k++) {
             for (int i = 0; i < numNodes; i++) {
                 for (int j = 0; j < numNodes; j++) {
-                    int updateLength = Math.min(lengthByPath.get(Arrays.asList(i, j)),
-                                                sumLengths(lengthByPath.get(Arrays.asList(i, k)),
-                                                           lengthByPath.get(Arrays.asList(k, j))));
-                    lengthByPath.put(Arrays.asList(i, j), updateLength);
+                    firstPath = Arrays.asList(i,j);
+                    secondPath = Arrays.asList(i,k);
+                    thirdPath = Arrays.asList(j,k);
+                    updateLength = Math.min(lengthByPath.get(firstPath),
+                            sumLengths(lengthByPath.get(secondPath),
+                                    lengthByPath.get(thirdPath)));
+                    lengthByPath.put(firstPath, updateLength);
                 }
             }
         }
-
         return lengthByPath;
     }
 
-    private static int sumLengths(int a, int b) {
-        if (a == INF || b == INF) {
-            return INF;
+    private static int sumLengths(final int firstLength, final int secondLength) {
+        int sum;
+        if(firstLength == INF || secondLength == INF) {
+            sum = INF;
+        } else {
+            sum = firstLength + secondLength;
         }
-        return a + b;
+        return sum;
     }
 
 }

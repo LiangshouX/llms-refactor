@@ -1,32 +1,47 @@
-public class NextPermutation {
-    public static ArrayList<Integer> nextPermutation(ArrayList<Integer> perm) {
-        for (int i = perm.size() - 2; i >= 0; i--) {
-            if (perm.get(i) < perm.get(i + 1)) {
-                for (int j = perm.size() - 1; j != i; j--) {
-                    if (perm.get(j) < perm.get(i)) {
-                        ArrayList<Integer> nextPerm = new ArrayList<>(perm);
-                        int tempJ = perm.get(j);
-                        int tempI = perm.get(i);
-                        nextPerm.set(i, tempJ);
-                        nextPerm.set(j, tempI);
+package java_programs;
 
-                        ArrayList<Integer> reversed = new ArrayList<>();
-                        for (int k = nextPerm.size() - 1; k != i; k--) {
-                            reversed.add(nextPerm.get(k));
-                        }
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 
-                        int q = i + 1;
-                        for (Integer replace : reversed) {
-                            nextPerm.set(q, replace);
-                            q++;
-                        }
+public final class NextPermutation {
 
-                        return nextPerm;
-                    }
-                }
+    private NextPermutation() {
+        // To prevent instantiation
+        throw new UnsupportedOperationException("Cannot instantiate this utility class.");
+    }
+
+    public static List<Integer> getNextPermutation(final List<Integer> perm) {
+        final int size = perm.size();
+        List<Integer> result = new ArrayList<>();
+        for (final int index = size - 2; index != -1; index--) {
+            if (perm.get(index) < perm.get(index + 1)) {
+                result = swapAndReverse(perm, index);
             }
         }
+        return result;
+    }
 
-        return new ArrayList<>();
+    private static List<Integer> swapAndReverse(final List<Integer> perm, final int index) {
+        final int size = perm.size();
+        List<Integer> result = perm;
+        for (final int reversedIndex = size - 1; reversedIndex != index; reversedIndex--) {
+            if (perm.get(reversedIndex) < perm.get(index)) {
+                Collections.swap(perm, index, reversedIndex);
+                reverseFromIndex(perm, index);
+                result = perm;
+            }
+        }
+        return result;
+    }
+
+    private static void reverseFromIndex(final List<Integer> list, final int index) {
+        int left = index + 1;
+        int right = list.size() - 1;
+        while (left < right) {
+            Collections.swap(list, left, right);
+            left++;
+            right--;
+        }
     }
 }

@@ -8,8 +8,7 @@ import com.liangshou.llmsrefactor.codedata.entity.CodeDataEntity;
 import com.liangshou.llmsrefactor.llms.refactorengin.rabbitmq.MyMessageProducer;
 import org.springframework.stereotype.Service;
 
-import static com.liangshou.llmsrefactor.llms.refactorengin.rabbitmq.MqConstant.CODE_COMPARE;
-import static com.liangshou.llmsrefactor.llms.refactorengin.rabbitmq.MqConstant.CODE_DATA;
+import static com.liangshou.llmsrefactor.llms.refactorengin.rabbitmq.MqConstant.*;
 
 /**
  * @author X-L-S
@@ -34,12 +33,11 @@ public class RefactorService {
         this.codeCompareRepository = codeCompareRepository;
     }
 
-    public Long doRefactor (Long id, String dataType) {
+    public void doRefactorAndCompare(Long id, String dataType) {
 
         myMessageProducer.sendMessage("code_exchange", "my_routingKey",
                 "%s:%s".formatted(dataType, String.valueOf(id)));
 
-        return id;
     }
 
     public void doRefactorAll () {
@@ -50,7 +48,7 @@ public class RefactorService {
             if (codeData.getNewCode() != null) {
                 continue;
             }
-            doRefactor(id, CODE_DATA);
+            doRefactorAndCompare(id, CODE_DATA);
         }
     }
 
@@ -63,7 +61,19 @@ public class RefactorService {
             }
 
             rateLimiter.acquire();
-            doRefactor(id, CODE_COMPARE);
+            doRefactorAndCompare(id, CODE_COMPARE);
+        }
+    }
+
+    public void doCompareTwoCodeAll () {
+        for (long id = 1L; id <= 48; id++) {
+            CodeDataEntity codeData = codeDataRepository.findById(id).get();
+
+            if (codeData.getIsSame() != null && codeData.getDescription() != null) {
+                continue;
+            }
+            rateLimiter.acquire();
+            doRefactorAndCompare(id, TWO_CODE_COMPARE);
         }
     }
 }

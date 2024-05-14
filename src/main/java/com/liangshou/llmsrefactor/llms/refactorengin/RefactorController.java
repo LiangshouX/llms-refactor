@@ -1,6 +1,5 @@
 package com.liangshou.llmsrefactor.llms.refactorengin;
 
-import org.jetbrains.annotations.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,7 +23,7 @@ public class RefactorController {
     @GetMapping("/do")
     public void doRefactor (@RequestParam() Long id,
                             @RequestParam(defaultValue = CODE_DATA) String dataType) {
-        refactorService.doRefactor(id, dataType);
+        refactorService.doRefactorAndCompare(id, dataType);
     }
 
     @GetMapping("/doAll")
@@ -35,5 +34,10 @@ public class RefactorController {
     @GetMapping("/compareAll")
     public void doCompareAll () {
         refactorService.doRefactorCompareAll();
+    }
+
+    @GetMapping("/compareTwoCode")
+    public void doCompareTwoCodeAll () {
+        refactorService.doCompareTwoCodeAll();
     }
 }

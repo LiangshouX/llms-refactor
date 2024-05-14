@@ -1,11 +1,23 @@
-public final class KHeapsort {
-    public static List<Integer> kheapsort(final List<Integer> arr, final int k) {
-        PriorityQueue<Integer> heap = new PriorityQueue<>();
-        for (final Integer v : arr.subList(0, k)) {
+package java_programs;
+
+import java.util.*;
+
+/**
+ *
+ * @author derricklin
+ */
+public final class KHEAPSORT {
+    private KHEAPSORT() {
+        throw new IllegalStateException("Utility class");
+    }
+
+    public static List<Integer> kheapsort(final List<Integer> arr, final int numberOfElements) {
+        final Queue<Integer> heap = new PriorityQueue<>();
+        for (final Integer v : arr.subList(0,numberOfElements)) {
             heap.add(v);
         }
 
-        List<Integer> output = new ArrayList<>();
+        final List<Integer> output = new ArrayList<>();
         for (final Integer x : arr) {
             heap.add(x);
             final Integer popped = heap.poll();

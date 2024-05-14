@@ -1,0 +1,50 @@
+
+
+
+{
+  "Title": "Kayla DePalma 团队的研究成果",
+  "Description": "分不同的质量属性(Property)进行统计，PCounts代表总的报错数量，Detail为细分到每个类别的PCounts",
+  "Items": [
+    {
+      "Property": "Performance",
+      "PCounts": 505,
+      "Detail": ["Best Practice - 44", "Code Style - 296", "Design - 43", "Documentation - 94", "Error Prone - 5", "Multithreading - 9", "Performance - 14"]
+    },
+    {
+      "Property": "Complexity",
+      "PCounts": 508,
+      "Detail": ["Best Practice - 41", "Code Style - 297", "Design - 44", "Documentation - 96", "Error Prone - 5", "Multithreading - 9", "Performance - 14"]
+    },
+    {
+      "Property": "Coupling",
+      "PCounts": 534,
+      "Detail": ["Best Practice - 44", "Code Style - 326", "Design - 44", "Documentation - 94", "Error Prone - 5", "Multithreading - 9", "Performance - 12"]
+    },
+    {
+      "Property": "Cohesion",
+      "PCounts": 518,
+      "Detail": ["Best Practice - 55", "Code Style - 299", "Design - 43", "Documentation - 95", "Error Prone - 5", "Multithreading - 9", "Performance - 12"]
+    },
+    {
+      "Property": "Design Size",
+      "PCounts": 535,
+      "Detail": ["Best Practice - 56", "Code Style - 315", "Design - 43", "Documentation - 95", "Error Prone - 5", "Multithreading - 9", "Performance - 12"]
+    },
+    {
+      "Property": "Readability",
+      "PCounts": 552,
+      "Detail": ["Best Practice - 80", "Code Style - 304", "Design - 44", "Documentation - 95", "Error Prone - 5", "Multithreading - 9", "Performance - 15"]
+    },
+    {
+      "Property": "Reusability",
+      "PCounts": 500,
+      "Detail": ["Best Practice - 22", "Code Style - 323", "Design - 42", "Documentation - 87", "Error Prone - 5", "Multithreading - 9", "Performance - 12"]
+    },
+    {
+      "Property": "Understandability",
+      "PCounts": 532,
+      "Detail": ["Best Practice - 61", "Code Style - 304", "Design - 46", "Documentation - 95", "Error Prone - 5", "Multithreading - 9", "Performance - 14"]
+    }
+  ]
+}
+

@@ -1,20 +1,25 @@
+package java_programs;
 import java.util.*;
 
-public class FLATTEN {
-    public static List<Object> flatten(final Object arr) {
+public final class FLATTEN {
+    private FLATTEN() {
+        throw new IllegalStateException("Utility class");
+    }
+
+    public static Object flatten(final Object arr) {
+        Object result = arr;
         if (arr instanceof List) {
-            List<?> narr = (List<?>) arr;
-            List<Object> result = new ArrayList<>(50);
-            for (Object x : narr) {
+            final List<Object> narr = (List<Object>) arr;
+            final List<Object> tempResult = new ArrayList<>(50);
+            for (final Object x : narr) {
                 if (x instanceof List) {
-                    result.addAll((List<?>) flatten(x));
+                    tempResult.addAll((List<Object>) flatten(x));
                 } else {
-                    result.add(flatten(x));
+                    tempResult.add(flatten(x));
                 }
             }
-            return result;
-        } else {
-            return Collections.singletonList(arr);
+            result = tempResult;
         }
+        return result;
     }
 }

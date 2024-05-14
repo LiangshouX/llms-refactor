@@ -1,23 +1,37 @@
+package java_programs;
 
-public class DepthFirstSearch {
+import java.util.Set;
+import java.util.HashSet;
+
+public final class DepthFirstSearch {
+    private DepthFirstSearch() {
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
+
     public static boolean depthFirstSearch(final Node startNode, final Node goalNode) {
-        Set<Node> nodesVisited = new HashSet<>();
+        final Set<Node> nodesVisited = new HashSet<>();
+
         class Search {
-            boolean search(Node node) {
-                if (nodesVisited.contains(node)) {
-                    return false;
-                } else if (node == goalNode) {
-                    return true;
-                } else {
-                    for (Node successorNode : node.getSuccessors()) {
-                        if (search(successorNode)) { return true; }
+            /* default */ boolean search(final Node node) {
+                boolean result = false;
+                if (!nodesVisited.contains(node)) {
+                    if (node == goalNode) {
+                        result = true;
+                    } else {
+                        nodesVisited.add(node);
+                        for (final Node successorNode : node.getSuccessors()) {
+                            if (search(successorNode)) {
+                                return true;
+                            }
+                        }
                     }
                 }
-                return false;
+                return result;
             }
-        };
+        }
 
-        Search searchOperation = new Search();
-        return searchOperation.search(startNode);
+        final Search searchInstance = new Search();
+        return searchInstance.search(startNode);
     }
+
 }

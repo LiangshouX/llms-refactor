@@ -13,7 +13,7 @@ import java.util.UUID;
  * @author X-L-S
  */
 @Entity
-@Table(name = "code_data")
+@Table(name = "code_data_level2")
 @Getter
 @Setter
 public class CodeDataEntity {
@@ -49,6 +49,9 @@ public class CodeDataEntity {
 
     @Column(name = "is_same")
     Boolean isSame;
+
+    @Column(name = "description")
+    String description;
 
     @Column(name = "create_time")
     Instant createAt;

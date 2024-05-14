@@ -1,26 +1,35 @@
-import java.util.*;
+package java_programs;
 
-public class PowerSet {
-    public static List<List<Object>> powerset(final List<Object> arr) {
-        if (!arr.isEmpty()) {
-            Object first = arr.get(0);
-            arr.remove(0);
-            List<Object> rest = new ArrayList<>(arr);
-            List<List<Object>> rest_subsets = powerset(rest);
+import java.util.ArrayList;
+import java.util.List;
 
-            List<List<Object>> output = new ArrayList<>();
-            List<Object> to_add = new ArrayList<>();
-            to_add.add(first);
-            for (List<Object> subset : rest_subsets) {
-                to_add.addAll(subset);
-            }
-            output.add(to_add);
+/**
+ * @author derricklin
+ */
+public final class POWERSET {
 
-            return output;
+    private POWERSET() {
+        // Private constructor to prevent instantiation
+    }
+
+    public static List<List<Object>> powerset(final List<Object> originalList) {
+        List<List<Object>> output = new ArrayList<>();
+        if (originalList.isEmpty()) {
+            final List<Object> emptyList = new ArrayList<>();
+            output.add(emptyList);
         } else {
-            List<List<Object>> empty_set = new ArrayList<>();
-            empty_set.add(new ArrayList<>());
-            return empty_set;
+            final Object first = originalList.get(0);
+            final List<Object> rest = new ArrayList<>(originalList);
+            rest.remove(0);
+            final List<List<Object>> restSubsets = powerset(rest);
+
+            final List<Object> listToAdd = new ArrayList<>();
+            listToAdd.add(first);
+            for (final List<Object> subset : restSubsets) {
+                listToAdd.addAll(subset);
+            }
+            output.add(listToAdd);
         }
+        return output;
     }
 }

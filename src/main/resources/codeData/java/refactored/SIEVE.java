@@ -1,47 +1,56 @@
 package java_programs;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
-public class Sieve {
+/**
+ * Utility class for SIEVE operations.
+ *
+ * @author derricklin
+ */
+public final class SIEVE {
 
-    private Sieve() {
-        // private constructor to prevent instantiation
+    private SIEVE() {
+        // Prevent instantiation
     }
 
-    public static boolean all(final List<Boolean> booleanList) {
-        for (final boolean value : booleanList) {
+    public static boolean all(final List<Boolean> arr) {
+        boolean result = true;
+        for (final Boolean value : arr) {
             if (!value) {
-                return false;
+                result = false;
+                break;
             }
         }
-        return true;
+        return result;
     }
 
-    public static boolean any(final List<Boolean> booleanList) {
-        for (final boolean value : booleanList) {
+    public static boolean any(final List<Boolean> arr) {
+        boolean result = false;
+        for (final Boolean value : arr) {
             if (value) {
-                return true;
+                result = true;
+                break;
             }
         }
-        return false;
+        return result;
     }
 
-    public static List<Boolean> buildComprehension(final int n, final List<Integer> primes) {
-        final List<Boolean> builtComprehension = new ArrayList<>();
-        for (final Integer p : primes) {
-            builtComprehension.add(n % p > 0);
+    public static List<Boolean> listComprehension(final int number, final List<Integer> primeNumbers) {
+        final List<Boolean> comprehension = new ArrayList<>();
+        for (final Integer prime : primeNumbers) {
+            comprehension.add(number % prime > 0);
         }
-        return builtComprehension;
+        return comprehension;
     }
 
-    public static List<Integer> sieve(final int max) {
-        final List<Integer> primes = new ArrayList<>();
-        for (int n = 2; n < max + 1; n++) {
-            if (any(buildComprehension(n, primes))) {
-                primes.add(n);
+    public static List<Integer> sieve(final Integer maxNumber) {
+        final List<Integer> primeNumbers = new ArrayList<>();
+        for (int number = 2; number <= maxNumber; number++) {
+            if (any(listComprehension(number, primeNumbers))) {
+                primeNumbers.add(number);
             }
         }
-        return primes;
+        return primeNumbers;
     }
 }

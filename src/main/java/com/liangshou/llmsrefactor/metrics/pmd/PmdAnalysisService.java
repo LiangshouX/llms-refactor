@@ -294,6 +294,30 @@ public class PmdAnalysisService {
         }
     }
 
+    /**
+     * 统计不同的 RuleSet 下 Rule 的数量，应用于结果的分析
+     * @param reportList 检测报告列表
+     * @param ruleSet 需要分析的规则集
+     */
+    public Map<String, Integer> analyzeRuleCount (List<String> reportList, String ruleSet) {
+
+        Map<String, Integer> ruleCounts = new HashMap<>();
+
+        for (String report: reportList) {
+            PmdViolations violations = parseJsonToAnalysisResult(report);
+
+            if (violations != null) {
+                // 从 violations 中逐个读取 violation
+                for (PmdViolation violation : violations.violations()) {
+                    if (violation.ruleSet().equals(ruleSet)) {
+                        ruleCounts.put(violation.rule(), ruleCounts.getOrDefault(violation.rule(), 0) + 1);
+                    }
+                }
+            }
+        }
+
+        return ruleCounts;
+    }
 
     /**
      * PMD 检测收集的结果 转换为 JSON 串

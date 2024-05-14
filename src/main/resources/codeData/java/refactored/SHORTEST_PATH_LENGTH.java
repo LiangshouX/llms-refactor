@@ -1,9 +1,22 @@
-public class ShortestPathLengthUtil {
-    public static int shortestPathLength(final Map<List<Node>, Integer> lengthByEdge, final Node startNode, final Node goalNode) {
-        int n = lengthByEdge.size();
-        
-        final Map<Node, Integer> unvisitedNodes = new HashMap<>();
+package java_programs;
+
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ *
+ * @author Angela Chen
+ */
+
+public final class ShortestPathLength {
+    private ShortestPathLength() {
+        // private constructor to prevent instantiation
+    }
+    
+    public static int calculateShortestPathLength(Map<List<Node>, Integer> lengthByEdge, final Node startNode, final Node goalNode) {
+        final Map<Node, Integer> unvisitedNodes = new ConcurrentHashMap<>();
         final Set<Node> visitedNodes = new HashSet<>();
+        int result = Integer.MAX_VALUE;
 
         unvisitedNodes.put(startNode, 0);
 
@@ -13,11 +26,12 @@ public class ShortestPathLengthUtil {
             unvisitedNodes.remove(node);
 
             if (node.getValue() == goalNode.getValue()) {
-                return distance;
+                result = distance;
+                break;
             }
             visitedNodes.add(node);
 
-            for (Node nextNode : node.getSuccessors()) {
+            for (final Node nextNode : node.getSuccessors()) {
                 if (visitedNodes.contains(nextNode)) {
                     continue;
                 }
@@ -27,21 +41,21 @@ public class ShortestPathLengthUtil {
                 }
 
                 unvisitedNodes.put(nextNode, Math.min(unvisitedNodes.get(nextNode),
-                        distance + lengthByEdge.get(Arrays.asList(node, nextNode))));
+                        unvisitedNodes.get(nextNode) + lengthByEdge.get(Arrays.asList(node, nextNode))));
             }
         }
 
-        return Integer.MAX_VALUE;
+        return result;
     }
 
-    public static Node getNodeWithMinDistance(final Map<Node,Integer> list) {
+    public static Node getNodeWithMinDistance(final Map<Node,Integer> nodeList) {
         Node minNode = null;
         int minDistance = Integer.MAX_VALUE;
-        for (Node node : list.keySet()) {
-            final int distance = list.get(node);
+        for (final Map.Entry<Node, Integer> entry : nodeList.entrySet()) {
+            final int distance = entry.getValue();
             if (distance < minDistance) {
                 minDistance = distance;
-                minNode = node;
+                minNode = entry.getKey();
             }
         }
         return minNode;

@@ -1,35 +1,65 @@
-public class LongestCommonSubsequence {
-    public static int findLongestCommonSubsequenceLength(String s, String t) {
-        Map<Integer, Map<Integer,Integer>> dp = new HashMap<>();
+package java_programs;
 
-        for (int i = 0; i < s.length(); i++) {
-            Map<Integer,Integer> initialize = new HashMap<>();
-            dp.put(i, initialize);
-            for (int j = 0; j < t.length(); j++) {
-                Map<Integer,Integer> internalMap = dp.get(i);
-                internalMap.put(j, 0);
-                dp.put(i, internalMap);
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * This utility class provides methods to calculate the length of Longest Common Subsequence (LCS)
+ * @author derricklin
+ */
+public final class LcsLength {
+
+    private LcsLength() {
+        // This private constructor prevents the utility class from being instantiated.
+    }
+
+    public static Integer calculateLcsLength(final String stringOne, final String stringTwo) {
+        // Using a map of maps to store intermediate results
+        Map<Integer, Map<Integer,Integer>> dynamicProgrammingMap = new ConcurrentHashMap<>();
+
+        // Initialize all the internal maps to 0
+        Map<Integer,Integer> initialize;
+        for (int i = 0; i < stringOne.length(); i++) {
+            initialize = dynamicProgrammingMap.getOrDefault(i, new ConcurrentHashMap<>());
+            for (int j = 0; j < stringTwo.length(); j++) {
+                initialize.putIfAbsent(j, 0);
             }
+            dynamicProgrammingMap.put(i, initialize);
         }
 
-        for (int i = 0; i < s.length(); i++) {
-            for (int j = 0; j < t.length(); j++) {
-                if (s.charAt(i) == t.charAt(j)) {
-                    int insertValue = 0;
-                    if (dp.containsKey(i-1)) {
-                        insertValue = dp.get(i-1).getOrDefault(j, 0) + 1;
+        // Calculate the LCS length
+        final Map<Integer, Integer> internalMap;
+        for (int i = 0; i < stringOne.length(); i++) {
+            for (int j = 0; j < stringTwo.length(); j++) {
+                if (stringOne.charAt(i) == stringTwo.charAt(j)) {
+                    internalMap = dynamicProgrammingMap.get(i);
+                    if (dynamicProgrammingMap.containsKey(i - 1)) {
+                        final int insertValue = dynamicProgrammingMap.get(i - 1).get(j) + 1;
+                        internalMap.put(j, insertValue);
+                    } else {
+                        internalMap.put(j, 1);
                     }
-                    Map<Integer, Integer> internalMap = dp.get(i);
-                    internalMap.put(j, insertValue);
-                    dp.put(i, internalMap);
+                    dynamicProgrammingMap.put(i, internalMap);
                 }
             }
         }
 
-        List<Integer> resultList = new ArrayList<>();
-        for (int i = 0; i < s.length(); i++) {
-            resultList.add(dp.get(i).values().stream().max(Integer::compareTo).orElse(0));
+        // Get the maximum LCS length
+        int maxValue = 0;
+        if (!dynamicProgrammingMap.isEmpty()) {
+            final List<Integer> retList = new ArrayList<>();
+            for (Map<Integer, Integer> value : dynamicProgrammingMap.values()) {
+                if (!value.isEmpty()) {
+                    retList.add(Collections.max(value.values()));
+                }
+            }
+            if (!retList.isEmpty()) {
+                maxValue = Collections.max(retList);
+            }
         }
-        return Collections.max(resultList);
+        return maxValue;
     }
 }

@@ -1,35 +1,45 @@
-public class MergeSort {
-    public static List<Integer> merge(List<Integer> left, List<Integer> right) {
-        List<Integer> result = new ArrayList<>();
-        int i = 0;
-        int j = 0;
+package java_programs;
 
-        while (i < left.size() && j < right.size()) {
-            if (left.get(i) <= right.get(j)) {
-                result.add(left.get(i));
-                i++;
+import java.util.ArrayList;
+import java.util.List;
+
+public final class MERGESORT {
+
+    private MERGESORT() {
+        throw new UnsupportedOperationException("Utility class");
+    }
+
+    public static List<Integer> merge(final List<Integer> left, final List<Integer> right) {
+        final List<Integer> result = new ArrayList<>();
+        int indexLeft = 0;
+        int indexRight = 0;
+
+        while (indexLeft < left.size() && indexRight < right.size()) {
+            if (left.get(indexLeft) <= right.get(indexRight)) {
+                result.add(left.get(indexLeft));
+                indexLeft++;
             } else {
-                result.add(right.get(j));
-                j++;
+                result.add(right.get(indexRight));
+                indexRight++;
             }
         }
-        result.addAll(left.subList(i,left.size()).isEmpty() ? right.subList(j, right.size()) : left.subList(i, left.size()));
+        result.addAll(left.subList(indexLeft,left.size()).isEmpty() ? right.subList(indexRight, right.size()) : left.subList(indexLeft, left.size()));
         return result;
     }
 
-    public static List<Integer> mergeSort(List<Integer> arr) {
-        if (arr.size() <= 1) {
+    public static List<Integer> mergesort(final List<Integer> arr) {
+        if (arr.isEmpty()) {
             return arr;
-        } else {
-            int middle = arr.size() / 2;
-            List<Integer> left = new ArrayList<>();
-            left.addAll(arr.subList(0, middle));
-            left = mergeSort(left);
-            List<Integer> right = new ArrayList<>();
-            right.addAll(arr.subList(middle, arr.size()));
-            right = mergeSort(right);
-
-            return merge(left, right);
         }
+        
+        final int middle = arr.size() / 2;
+        
+        List<Integer> left = new ArrayList<>(arr.subList(0,middle));
+        left = mergesort(left);
+        
+        List<Integer> right = new ArrayList<>(arr.subList(middle, arr.size()));
+        right = mergesort(right);
+
+        return merge(left, right);
     }
 }

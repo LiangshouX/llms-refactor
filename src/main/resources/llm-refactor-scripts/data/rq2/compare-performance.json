@@ -1,0 +1,112 @@
+
+
+{
+  "title": "Performance Compare Data",
+  "description": "针对不同的Prompt重构策略表现的对比数据",
+  "datas": [
+    {
+      "Strategy": "ORIGIN",
+      "Total Problems": 709,
+      "Rule Category Counts": {
+        "Design": 60,
+        "Multithreading": 10,
+        "Documentation": 1,
+        "Best Practices": 110,
+        "Code Style": 501,
+        "Performance": 15,
+        "Error Prone": 12
+      },
+      "Priority Counts": {
+        "1": 93,
+        "2": 8,
+        "3": 592,
+        "4": 16
+      },
+      "Problem Count": [9, 3, 9, 16, 16, 7, 10, 15, 9, 7, 16, 21, 6, 15, 8, 18, 31, 5, 16, 11, 9, 8, 21, 23, 8, 20, 18, 13, 22, 28, 18, 9, 31, 9, 15, 5, 23, 34, 19, 20, 16, 26, 5, 20, 11, 10, 9, 11]
+    },
+
+    {
+      "Strategy": "LEVEL-1",
+      "Total Problems": 511,
+      "Rule Category Counts": {
+        "Design": 52,
+        "Multithreading": 9,
+        "Documentation": 0,
+        "Best Practices": 87,
+        "Code Style": 335,
+        "Performance": 16,
+        "Error Prone": 12
+      },
+      "Priority Counts": {
+        "1": 5,
+        "2": 8,
+        "3": 488,
+        "4": 10
+      },
+      "Problem Count":	[8, 3, 7, 13, 14, 3, 8, 11, 8, 5, 13, 17, 5, 13, 9, 15, 17, 5, 10, 7, 7, 4, 18, 20, 7, 10, 12, 6, 6, 24, 8, 7, 31, 6, 15, 2, 14, 9, 14, 14, 9, 22, 3, 15, 10, 6, 11, 11]
+    },
+
+    {
+      "Strategy": "LEVEL-2",
+      "Total Problems": 208,
+      "Rule Category Counts": {
+        "Design": 46,
+        "Multithreading": 2,
+        "Documentation": 0,
+        "Best Practices": 17,
+        "Code Style": 132,
+        "Performance": 7,
+        "Error Prone": 4
+      },
+      "Priority Counts": {
+        "1": 3,
+        "2": 6,
+        "3": 211,
+        "4": 5
+      },
+      "Problem Count":	[3, 3, 6, 5, 0, 3, 5, 4, 6, 0, 8, 0, 4, 7, 4, 7, 0, 6, 7, 7, 2, 4, 4, 7, 3, 12, 9, 6, 9, 0, 10, 3, 10, 4, 3, 3, 11, 0, 0, 7, 0, 7, 1, 12, 4, 3, 0, 6]
+    },
+
+    {
+      "Strategy": "LEVEL-3",
+      "Total Problems": 358,
+      "Rule Category Counts": {
+        "Design": 50,
+        "Multithreading": 3,
+        "Documentation": 0,
+        "Best Practices": 16,
+        "Code Style": 266,
+        "Performance": 11,
+        "Error Prone": 12
+      },
+      "Priority Counts": {
+        "1": 17,
+        "2": 7,
+        "3": 324,
+        "4": 10
+      },
+      "Problem Count":	[4, 3, 6, 5, 12, 3, 4, 5, 6, 3, 9, 8, 5, 5, 7, 6, 13, 4, 5, 8, 6, 4, 11, 21, 7, 16, 15, 7, 13, 17, 8, 6, 14, 5, 6, 3, 2, 11, 7, 14, 7, 5, 2, 9, 5, 6, 1, 9]
+    },
+
+    {
+      "Strategy": "LEVEL-4",
+      "Total Problems": 464,
+      "Rule Category Counts": {
+        "Design": 48,
+        "Multithreading": 2,
+        "Documentation": 7,
+        "Best Practices": 58,
+        "Code Style": 332,
+        "Performance": 10,
+        "Error Prone": 7
+      },
+      "Priority Counts": {
+        "1": 14,
+        "2": 6,
+        "3": 434,
+        "4": 10
+      },
+      "Problem Count":	[7, 4, 8, 15, 17, 5, 9, 6, 7, 8, 10, 0, 5, 17, 10, 19, 21, 6, 10, 8, 10, 4, 21, 0, 8, 16, 15, 7, 13, 12, 10, 8, 24, 6, 6, 2, 17, 0, 17, 15, 9, 0, 5, 16, 14, 7, 10, 0]
+    }
+  ]
+}

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author X-L-S
@@ -38,7 +37,7 @@ public class GptChatController {
 
     @GetMapping("/gpt/multi")
     public void multiCompletion(@RequestParam(defaultValue = "1") String id){
-        completionService.multiCompletion(Long.parseLong(id));
+        completionService.multiRefactorCompletion(Long.parseLong(id));
     }
 
     @GetMapping("/gpt/code")
@@ -60,10 +59,9 @@ public class GptChatController {
         return res;
     }
 
-    @GetMapping("/gpt/generateStream")
-    public Flux<ChatResponse> generateStream(@RequestParam(value = "message", defaultValue = "Hello" )
-                                             String message){
-        Prompt prompt = new Prompt(new UserMessage(message));
-        return null;
+    @GetMapping("/gpt/compare2Codes")
+    public void compareTwoCodes (@RequestParam(defaultValue = "1") String codeId) {
+        Long id = Long.parseLong(codeId);
+        completionService.compareTwoCodeCompletion(id);
     }
 }

@@ -1,29 +1,43 @@
 package java_programs.extra;
+import java.util.*;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
-import java.util.Scanner;
+public final class NestedParens {
+    private static final Logger LOGGER = Logger.getLogger( NestedParens.class.getName() );
 
-public class NestedParens {
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        String S = in.next();
-        int[] num = new int[S.length()];
-        for (int i = 0; i < S.length(); i++)
-            num[i] = S.charAt(i) == '(' ? 1 : -1;
-
-        System.out.println(isProperlyNested(num) == 1 ? "GOOD" : "BAD");
+    private NestedParens() {
+        // This utility class is not publicly instantiable.
     }
 
-    public static int isProperlyNested(int[] A) {
-        int bad = 0;
-        int depth = 0;
-        int i = 0;
-        while (i < A.length) {
-            depth += A[i];
-            if (depth < 0) {
-                bad = 1;
-            }
-            i += 1;
+    public static void main(String[] args) {
+        final Scanner scanner = new Scanner(System.in);
+        final String inputString = scanner.next();
+        final int[] numArray = new int[inputString.length()];
+        for(int index=0; index<inputString.length(); index++) {
+            numArray[index] = inputString.charAt(index)=='(' ? 1 : -1;
         }
-        return bad == 0 ? 1 : 0;
+
+        if(isProperlyNested(numArray) == 1) {
+            LOGGER.log(Level.INFO, "GOOD");
+        } else {
+            LOGGER.log(Level.INFO, "BAD");
+        }
+        scanner.close();
+    }
+
+    public static int isProperlyNested(final int[] numberArray) {
+        int isBad = 0;
+        int depth = 0;
+        int index = 0;
+        while(index < numberArray.length) {
+            depth += numberArray[index];
+            if(depth < 0) { 
+                isBad = 1; 
+                return 0;
+            }
+            index += 1;
+        }
+        return 1;
     }
 }

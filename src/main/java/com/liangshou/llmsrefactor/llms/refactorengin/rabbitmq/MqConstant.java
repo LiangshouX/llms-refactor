@@ -7,4 +7,6 @@ public interface MqConstant {
     String CODE_DATA = "codeData";
 
     String CODE_COMPARE = "codeCompare";
+
+    String TWO_CODE_COMPARE = "twoCodeCompare";
 }

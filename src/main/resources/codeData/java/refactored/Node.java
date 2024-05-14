@@ -1,40 +1,40 @@
 package java_programs;
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Set;
 
-public class Node {
+public class GraphNode {
 
-    private String value;
-    private List<Node> successors;
-    private List<Node> predecessors;
-    private Node successor;
+    private final String value;
+    private List<GraphNode> successors;
+    private List<GraphNode> predecessors;
+    private GraphNode successor;
 
-    public Node() {
-        this.successor = null;
-        this.successors = new ArrayList<>();
-        this.predecessors = new ArrayList<>();
-        this.value = null;
+    public GraphNode() {
+        this.successors = null;
+        this.predecessors = null;
+        this.value = "";
     }
 
-    public Node(String value) {
+    public GraphNode(final String value) {
         this.value = value;
-        this.successor = null;
-        this.successors = new ArrayList<>();
-        this.predecessors = new ArrayList<>();
+        this.successors = null;
+        this.predecessors = null;
     }
 
-    public Node(String value, Node successor) {
+    public GraphNode(final String value, final GraphNode successor) {
         this.value = value;
         this.successor = successor;
+        this.successors = null;
+        this.predecessors = null;
     }
 
-    public Node(String value, List<Node> successors) {
+    public GraphNode(final String value, final List<GraphNode> successors) {
         this.value = value;
         this.successors = successors;
+        this.predecessors = null;
     }
 
-    public Node(String value, List<Node> predecessors, List<Node> successors) {
+    public GraphNode(final String value, final List<GraphNode> predecessors, final List<GraphNode> successors) {
         this.value = value;
         this.predecessors = predecessors;
         this.successors = successors;
@@ -44,27 +44,27 @@ public class Node {
         return value;
     }
 
-    public void setSuccessor(Node successor) {
+    public void setSuccessor(final GraphNode successor) {
         this.successor = successor;
     }
 
-    public void setSuccessors(List<Node> successors) {
+    public void setSuccessors(final List<GraphNode> successors) {
         this.successors = successors;
     }
 
-    public void setPredecessors(List<Node> predecessors) {
+    public void setPredecessors(final List<GraphNode> predecessors) {
         this.predecessors = predecessors;
     }
 
-    public Node getSuccessor() {
+    public GraphNode getSuccessor() {
         return successor;
     }
 
-    public List<Node> getSuccessors() {
+    public List<GraphNode> getSuccessors() {
         return successors;
     }
 
-    public List<Node> getPredecessors() {
+    public List<GraphNode> getPredecessors() {
         return predecessors;
     }
 }

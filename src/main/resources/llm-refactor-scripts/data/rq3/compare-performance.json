@@ -1,0 +1,70 @@
+
+
+{
+  "title": "Performance Compare Data",
+  "description": "针对不同的模型重构表现的对比数据",
+  "datas": [
+    {
+      "Model": "GPT-3.5-Turbo",
+      "Total Problems": 208,
+      "Rule Category Counts": {
+        "Design": 46,
+        "Multithreading": 2,
+        "Documentation": 0,
+        "Best Practices": 17,
+        "Code Style": 132,
+        "Performance": 7,
+        "Error Prone": 4
+      },
+      "Priority Counts": {
+        "1": 3,
+        "2": 6,
+        "3": 211,
+        "4": 5
+      },
+      "Problem Count":	[3, 3, 6, 5, 0, 3, 5, 4, 6, 0, 8, 0, 4, 7, 4, 7, 0, 6, 7, 7, 2, 4, 4, 7, 3, 12, 9, 6, 9, 0, 10, 3, 10, 4, 3, 3, 11, 0, 0, 7, 0, 7, 1, 12, 4, 3, 0, 6]
+    },
+    {
+      "Model": "GPT-4-Turbo",
+      "Total Problems": 152,
+      "Rule Category Counts": {
+        "Design": 24,
+        "Multithreading": 2,
+        "Documentation": 3,
+        "Best Practices": 9,
+        "Code Style": 96,
+        "Performance": 10,
+        "Error Prone": 8
+      },
+      "Priority Counts": {
+        "1": 21,
+        "2": 3,
+        "3": 126,
+        "4": 2
+      },
+      "Problem Count": [0, 1, 2, 0, 6, 0, 0, 1, 0, 4, 4, 4, 1, 0, 1, 3, 2, 5, 3, 5, 1, 0, 4, 4, 0, 7, 5, 5, 7, 3, 5, 4, 5, 6, 3, 2, 7, 5, 1, 9, 3, 4, 0, 8, 2, 3, 5, 2]
+    },
+
+
+    {
+      "Model": "GPT-4",
+      "Total Problems": 78,
+      "Rule Category Counts": {
+        "Design": 7,
+        "Multithreading": 2,
+        "Documentation": 0,
+        "Best Practices": 20,
+        "Code Style": 32,
+        "Performance": 6,
+        "Error Prone": 11
+      },
+      "Priority Counts": {
+        "1": 1,
+        "2": 5,
+        "3": 68,
+        "4": 4
+      },
+      "Problem Count":	[0, 1, 0, 0, 3, 0, 0, 3, 0, 2, 2, 1, 1, 0, 1, 1, 7, 0, 1, 1, 1, 0, 1, 2, 0, 9, 5, 0, 0, 8, 2, 1, 1, 8, 1, 1, 5, 0, 1, 1, 0, 0, 0, 0, 0, 2, 1, 4]
+    }
+  ]
+}

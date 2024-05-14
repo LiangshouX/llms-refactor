@@ -1,13 +1,18 @@
-
 package java_programs.extra;
 
-public class ModuloInverse {
-    public static int inverse(int base, int mod) {
-        if (base == 1) {
-            return base;
+public final class ModuloInverse {
+    private ModuloInverse() {
+    }
+
+    public static int inverse(final int base, final int mod) {
+        final int magicNumber = 1;
+        int result;
+        if(base == magicNumber) {
+            result = base;
         } else {
-            int coeff = base - inverse(mod % base, base);
-            return (coeff * mod) / base;
+            final int coeff = base - inverse(mod % base, base);
+            result = coeff * mod / base;
         }
+        return result;
     }
 }

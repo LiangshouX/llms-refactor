@@ -1,0 +1,84 @@
+{
+  "QualityCategory": [
+    {
+      "Quality": "Performance",
+      "Item": [
+        {
+          "RuleSet": "Best Practices",
+          "Rule": ["AvoidReassigningParameters", "LooseCoupling","ReplaceVectorWithList", "SystemPrintIn","UnusedLocalVariable", "UseVarargs"],
+          "Total": 6
+        },
+        {
+          "RuleSet": "Code Style",
+          "Rule": ["AtLeastOneConstructor", "CommentDefaultAccessModifier","FormalParameterNamingConventions", "ConfusingTernary","LocalVariableCouldBeFinal", "LocalVariableNamingConventions", "LongVariable", "MethodArgumentCouldBeFinal", "OnlyOneReturn", "ShortClassName", "ShortVariable", "UseUnderscoreInNumericLiterals", "UseDiamondOperator"],
+          "Total": 13
+        },
+        {
+          "RuleSet": "Design",
+          "Rule": ["CognitiveComplexity", "CyclomaticComplexity","DataClass", "UseUtilityClass"],
+          "Total": 4
+        },
+        {
+          "RuleSet": "Documentation",
+          "Rule": ["CognitiveComplexity", "CyclomaticComplexity","DataClass", "UseUtilityClass"],
+          "Total": 4
+        },
+        {
+          "RuleSet": "Error Prone",
+          "Rule": ["AvoidLiteralsInIfCondition", "CompareObjectsWithEquals"],
+          "Total": 2
+        },
+        {
+          "RuleSet": "Multithreading",
+          "Rule": ["UseConcurrentHashMap"],
+          "Total": 1
+        },
+        {
+          "RuleSet": "Performance",
+          "Rule": ["AvoidinstantiatingObjectsInLoops", "UseIndexOfChar","UselessStringValueOf"],
+          "Total": 3
+        }
+      ]
+    },
+    {
+      "Quality": "Complexity",
+      "Item": [
+        {
+          "RuleSet": "Best Practices",
+          "Rule": ["AvoidReassigningParameters", "LooseCoupling","ReplaceVectorWithList", "SystemPrintIn","UnusedLocalVariable", "UseVarargs"],
+          "Total": 6
+        },
+        {
+          "RuleSet": "Code Style",
+          "Rule": ["AtLeastOneConstructor", "CommentDefaultAccessModifier","FormalParameterNamingConventions", "ConfusingTernary","LocalVariableCouldBeFinal", "LocalVariableNamingConventions", "LongVariable", "MethodArgumentCouldBeFinal", "OnlyOneReturn", "ShortClassName", "ShortVariable", "UseUnderscoreInNumericLiterals", "UseDiamondOperator"],
+          "Total": 13
+        },
+        {
+          "RuleSet": "Design",
+          "Rule": ["CognitiveComplexity", "CyclomaticComplexity","DataClass", "UseUtilityClass"],
+          "Total": 4
+        },
+        {
+          "RuleSet": "Documentation",
+          "Rule": ["CognitiveComplexity", "CyclomaticComplexity","DataClass", "UseUtilityClass"],
+          "Total": 4
+        },
+        {
+          "RuleSet": "Error Prone",
+          "Rule": ["AvoidLiteralsInIfCondition", "CompareObjectsWithEquals"],
+          "Total": 2
+        },
+        {
+          "RuleSet": "Multithreading",
+          "Rule": ["UseConcurrentHashMap"],
+          "Total": 1
+        },
+        {
+          "RuleSet": "Performance",
+          "Rule": ["AvoidinstantiatingObjectsInLoops", "UseIndexOfChar","UselessStringValueOf"],
+          "Total": 3
+        }
+      ]
+    }
+  ]
+}

@@ -1,14 +1,24 @@
+package java_programs;
 
-public class BaseConverterUtil {
+import java.util.*;
 
-    public static String convertToBase(int number, int base) {
+/**
+ *
+ * @author derricklin
+ */
+public final class ToBaseUtil {
+    private ToBaseUtil() {
+        // private constructor to prevent instantiation
+    }
+    
+    public static String toBase(int number, final int base) {
         StringBuilder result = new StringBuilder();
-        String alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        int remainder;
+        final String alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        int index;
         while (number > 0) {
-            remainder = number % base;
-            number = number / base;
-            result.insert(0, alphabet.charAt(remainder));
+            index = number % base;
+            number = number / base; // floor division?
+            result.append(alphabet.charAt(index));
         }
 
         return result.toString();

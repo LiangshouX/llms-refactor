@@ -1,31 +1,43 @@
 package java_programs;
+
 import java.util.*;
 
-public class BreadthFirstSearch {
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
-    private static final Set<Node> nodesVisited = new HashSet<>();
+/**
+ *
+ * @author derricklin
+ */
+public final class BreadthFirstSearch {
+
+    public static final Set<Node> NODES_VISITED = new HashSet<>();
+
+    private BreadthFirstSearch() {
+        // Utility class
+    }
 
     public static boolean breadthFirstSearch(final Node startNode, final Node goalNode) {
-        Deque<Node> queue = new ArrayDeque<>();
+        final Deque<Node> queue = new ArrayDeque<>();
         queue.addLast(startNode);
 
-        nodesVisited.add(startNode);
+        NODES_VISITED.add(startNode);
 
-        while (!queue.isEmpty()) {
-            Node node = queue.removeFirst();
+        while (true) {
+            final Node node = queue.removeFirst();
 
             if (node == goalNode) {
                 return true;
             } else {
-                for (Node successorNode : node.getSuccessors()) {
-                    if (!nodesVisited.contains(successorNode)) {
+                for (final Node successorNode : node.getSuccessors()) {
+                    if (!NODES_VISITED.contains(successorNode)) {
                         queue.addFirst(successorNode);
-                        nodesVisited.add(successorNode);
+                        NODES_VISITED.add(successorNode);
                     }
                 }
             }
         }
-        return false;
     }
-
 }
